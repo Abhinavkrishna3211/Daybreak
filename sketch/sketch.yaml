@@ -18,7 +18,6 @@ profiles:
       - dependency: ArxTypeTraits (0.3.2)
       - dependency: DebugLog (0.8.4)
       - dependency: MsgPack (0.4.2)
-      - Arduino_Modulino (0.9.1)
       - dependency: ArduinoGraphics (1.1.4)
       - dependency: Arduino_HS300x (1.0.0)
       - dependency: Arduino_LPS22HB (1.0.2)
@@ -26,6 +25,4 @@ profiles:
       - dependency: Arduino_LTR381RGB (1.0.0)
       - dependency: STM32duino VL53L4CD (1.0.5)
       - dependency: STM32duino VL53L4ED (1.0.1)
-      - Adafruit LTR390 Library (1.1.2)
-      - dependency: Adafruit BusIO (1.17.4)
 default_profile: default

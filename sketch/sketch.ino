@@ -7,8 +7,55 @@
 
 #include <Arduino_RouterBridge.h>
 #include <Wire.h>
-#include <Adafruit_LTR390.h>     // VERIFY it builds on the arduino:zephyr core
-#include <Modulino.h>            // Modulino Movement over Qwiic
+// Light (BH1750), UV (GUVA-S12SD, analog) and motion (MPU6050) are all read over raw
+// Wire/analogRead below - no sensor library needed, same approach as the DS3231. No Modulino:
+// Abhi's board has no Qwiic cable, so the MPU6050 is the only motion sensor, not a fallback.
+
+// ---------------- MPU6050 (motion, task 6) ----------------
+// AD0 tied high on the board -> address 0x69 (0x68 is the DS3231, sharing this same bus).
+const int MPU_ADDR = 0x69;
+
+bool mpuBegin() {
+  Wire2.beginTransmission(MPU_ADDR);
+  Wire2.write(0x6B);  // PWR_MGMT_1
+  Wire2.write(0x00);  // wake from sleep, internal oscillator
+  return Wire2.endTransmission() == 0;
+}
+
+// Accel only, +-2g range (power-on default) - returns g's, false if the chip didn't answer.
+bool mpuReadAccel(float &ax, float &ay, float &az) {
+  Wire2.beginTransmission(MPU_ADDR);
+  Wire2.write(0x3B);  // ACCEL_XOUT_H
+  if (Wire2.endTransmission(false) != 0) return false;
+  if (Wire2.requestFrom(MPU_ADDR, 6) != 6) return false;
+  int16_t rx = (Wire2.read() << 8) | Wire2.read();
+  int16_t ry = (Wire2.read() << 8) | Wire2.read();
+  int16_t rz = (Wire2.read() << 8) | Wire2.read();
+  ax = rx / 16384.0f; ay = ry / 16384.0f; az = rz / 16384.0f;  // LSB/g at +-2g
+  return true;
+}
+
+// ---------------- BH1750 (lux) ----------------
+// ADD pin left floating/low on the board -> address 0x23.
+const int BH1750_ADDR = 0x23;
+
+bool bh1750Begin() {
+  Wire2.beginTransmission(BH1750_ADDR);
+  Wire2.write(0x01);  // power on
+  return Wire2.endTransmission() == 0;
+}
+
+// Returns -1 if the chip didn't answer. UNCALIBRATED, same as the lux formula below -
+// CALIBRATE vs a lux meter/phone app.
+float bh1750Read() {
+  Wire2.beginTransmission(BH1750_ADDR);
+  Wire2.write(0x10);  // continuous H-resolution mode, 1 lx step
+  if (Wire2.endTransmission() != 0) return -1.0f;
+  delay(130);  // worst-case H-res conversion time
+  if (Wire2.requestFrom(BH1750_ADDR, 2) != 2) return -1.0f;
+  uint16_t raw = (Wire2.read() << 8) | Wire2.read();
+  return raw / 1.2f;  // datasheet conversion factor
+}
 
 // ---------------- DS3231 RTC (task 8) ----------------
 // No RTC library added - it's a handful of BCD register reads/writes, and the only thing a
@@ -17,8 +64,8 @@
 // CR2032 - wiring and Bridge calls work identically either way, only power-cut survival waits.
 const int DS3231_ADDR = 0x68;
 
-uint8_t bcd2bin(uint8_t v) { return (v & 0x0F) + ((v >> 4) * 10); }
-uint8_t bin2bcd(uint8_t v) { return (v % 10) + ((v / 10) << 4); }
+uint8_t dsBcd2bin(uint8_t v) { return (v & 0x0F) + ((v >> 4) * 10); }
+uint8_t dsBin2bcd(uint8_t v) { return (v % 10) + ((v / 10) << 4); }
 
 bool rtcWrite(uint32_t unixtime) {
   // Civil-from-days algorithm (Howard Hinnant), good for any Gregorian date - avoids pulling in
@@ -38,31 +85,31 @@ bool rtcWrite(uint32_t unixtime) {
   uint32_t m = mp + (mp < 10 ? 3 : -9);
   y += (m <= 2);
 
-  Wire.beginTransmission(DS3231_ADDR);
-  Wire.write(0x00);
-  Wire.write(bin2bcd(ss));
-  Wire.write(bin2bcd(mm));
-  Wire.write(bin2bcd(hh));
-  Wire.write(bin2bcd(1));           // day-of-week unused, write a valid placeholder
-  Wire.write(bin2bcd(d));
-  Wire.write(bin2bcd(m));
-  Wire.write(bin2bcd(y - 2000));
-  return Wire.endTransmission() == 0;
+  Wire2.beginTransmission(DS3231_ADDR);
+  Wire2.write(0x00);
+  Wire2.write(dsBin2bcd(ss));
+  Wire2.write(dsBin2bcd(mm));
+  Wire2.write(dsBin2bcd(hh));
+  Wire2.write(dsBin2bcd(1));           // day-of-week unused, write a valid placeholder
+  Wire2.write(dsBin2bcd(d));
+  Wire2.write(dsBin2bcd(m));
+  Wire2.write(dsBin2bcd(y - 2000));
+  return Wire2.endTransmission() == 0;
 }
 
 // Returns 0 if the chip didn't answer (not fitted, or NACK).
 uint32_t rtcRead() {
-  Wire.beginTransmission(DS3231_ADDR);
-  Wire.write(0x00);
-  if (Wire.endTransmission(false) != 0) return 0;
-  if (Wire.requestFrom(DS3231_ADDR, 7) != 7) return 0;
-  int ss = bcd2bin(Wire.read());
-  int mm = bcd2bin(Wire.read());
-  int hh = bcd2bin(Wire.read() & 0x3F);  // mask 12/24h + AM/PM bits, we always set 24h
-  Wire.read();                           // day-of-week, unused
-  int d  = bcd2bin(Wire.read());
-  int m  = bcd2bin(Wire.read());
-  int y  = bcd2bin(Wire.read()) + 2000;
+  Wire2.beginTransmission(DS3231_ADDR);
+  Wire2.write(0x00);
+  if (Wire2.endTransmission(false) != 0) return 0;
+  if (Wire2.requestFrom(DS3231_ADDR, 7) != 7) return 0;
+  int ss = dsBcd2bin(Wire2.read());
+  int mm = dsBcd2bin(Wire2.read());
+  int hh = dsBcd2bin(Wire2.read() & 0x3F);  // mask 12/24h + AM/PM bits, we always set 24h
+  Wire2.read();                           // day-of-week, unused
+  int d  = dsBcd2bin(Wire2.read());
+  int m  = dsBcd2bin(Wire2.read());
+  int y  = dsBcd2bin(Wire2.read()) + 2000;
 
   int32_t yy = y - (m <= 2);
   int32_t era = (yy >= 0 ? yy : yy - 399) / 400;
@@ -81,6 +128,8 @@ const int PIN_OVERRIDE = 2;   // button to GND, INPUT_PULLUP
 const int PIN_TALK     = 4;   // button to GND, INPUT_PULLUP
 const int PIN_FLICKER  = A0;  // phototransistor + 10k to GND (optional)
 const bool HAS_FLICKER = false;  // set true once the phototransistor is fitted
+const int PIN_UV       = A2;  // GUVA-S12SD analog output
+const bool HAS_LIGHT_UV = false;  // BH1750 + GUVA-S12SD arrive this weekend - set true once fitted
 
 // ---------------- safety timing ----------------
 const unsigned long WATCHDOG_MS = 30UL * 1000;
@@ -90,18 +139,18 @@ unsigned long maxLockMs = 90UL * 60 * 1000;
 bool locked = false;
 bool alarmOn = false;
 
-// ponytail: the alarm itself still runs off millis(), not the DS3231 below, so this is a relative countdown from
-// millis(), not a wall-clock alarm. It survives the Linux app crashing or hanging (millis()
-// keeps running on this MCU regardless), which is the case this exists for. It does NOT
-// survive a power cycle - millis() resets to 0 and the countdown is lost until Linux
-// reconnects and resends it. Fix that by swapping this for a DS3231 compare-match alarm.
+// Wall-clock alarm: Linux sends the target as a unix time, and this fires by comparing
+// against the DS3231's own clock (read once a second in loop(), not on every tick - it's an
+// I2C transaction). Falls back to a millis() countdown when the RTC hasn't answered (not
+// fitted, or NACKing), same behavior as before this existed.
+uint32_t alarmAtUnix = 0;
 unsigned long alarmAtMs = 0;
 bool alarmArmed = false;
-bool ltrOk = false;         // false until begin() says the light sensor answered
+bool bh1750Ok = false;      // false until begin() says the light sensor answered
+bool mpuOk = false;         // false until begin() says the motion sensor answered
 bool rtcOk = false;         // false until the DS3231 answers on the bus
+uint32_t rtcNowUnix = 0;    // refreshed once a second in loop() when rtcOk
 
-Adafruit_LTR390 ltr;
-ModulinoMovement imu;
 long steps = 0;
 
 // ---------------- latch ----------------
@@ -116,20 +165,70 @@ void hHeartbeat()          { lastHeartbeat = millis(); }
 void hRelease()            { setLock(false); }
 void hLock(int minutes)    { maxLockMs = (unsigned long)minutes * 60000UL; setLock(true); }
 void hAlarm(int on)        { alarmOn = on; alarmArmed = false; if (!on) digitalWrite(PIN_BUZZER, LOW); }
-// seconds-until-next-fire, resent by Linux whenever the alarm is set, skipped, or on boot -
-// see the ponytail note above for why this is relative rather than wall-clock.
-void hSetAlarm(int secs)  { alarmAtMs = millis() + (unsigned long)secs * 1000UL; alarmArmed = true; }
+// seconds-until-next-fire, resent by Linux whenever the alarm is set, skipped, or on boot.
+// Also stamped as an RTC wall-clock target (if the RTC answered at boot), so the alarm survives
+// a power cycle that wipes millis(); the millis() target remains the fallback for no-RTC boards.
+void hSetAlarm(int secs) {
+  alarmAtMs = millis() + (unsigned long)secs * 1000UL;
+  alarmAtUnix = rtcOk ? rtcRead() + (uint32_t)secs : 0;
+  alarmArmed = true;
+}
 // Linux calls this whenever NTP syncs (fire-and-forget, same shape as the other Linux->MCU calls).
 void hRtcSet(uint32_t unixtime) { rtcOk = rtcWrite(unixtime); }
 
 // ---------------- sensing ----------------
+// Walking check (task 6): cadence (steady 1.4-2.6 steps/s for >=15s) and "carried upright"
+// (gravity mostly along one axis - whichever one, since the board's mounting orientation inside
+// the box isn't fixed here). Both ride on the same accel reads as step detection, so they're
+// computed alongside it rather than as a separate pass.
+unsigned long lastStepAt = 0;
+unsigned long steadyGaitMs = 0;
+float gxAvg = 0, gyAvg = 0, gzAvg = 0;  // slow EMA of accel - gravity direction while carried
+
+bool cadenceOk() { return steadyGaitMs >= 15000UL; }
+bool uprightOk() {
+  float dom = max(fabs(gxAvg), max(fabs(gyAvg), fabs(gzAvg)));
+  float other = fabs(gxAvg) + fabs(gyAvg) + fabs(gzAvg) - dom;
+  return dom > 0.75f && other < 0.6f;
+}
+
 // Simple step detector on |a| with hysteresis (good enough for "did you walk").
 void updateSteps() {
   static bool high = false;
-  if (!imu.update()) return;
-  float a = sqrt(imu.getX()*imu.getX() + imu.getY()*imu.getY() + imu.getZ()*imu.getZ()); // in g
-  if (!high && a > 1.20f) { high = true; steps++; }
-  if (high && a < 1.05f)  { high = false; }
+  float ax, ay, az;
+  if (!mpuOk || !mpuReadAccel(ax, ay, az)) return;
+  // Slow EMA (~1s time constant at this loop's ~10ms tick) - a hand-carried box swings
+  // through a full gait cycle (0.4-0.7s) each stride, and that swing has to average out
+  // before "which axis is gravity" means anything, not just track the latest swing.
+  const float alpha = 0.01f;
+  gxAvg += alpha * (ax - gxAvg);
+  gyAvg += alpha * (ay - gyAvg);
+  gzAvg += alpha * (az - gzAvg);
+
+  float a = sqrt(ax*ax + ay*ay + az*az); // in g
+  unsigned long now = millis();
+  // 250ms debounce: a human stride can't land faster than ~4/s, so a second crossing
+  // inside that window is arm-swing bounce on the same step, not a new one. Without this
+  // the raw threshold double-triggers per stride, which both overcounts steps and feeds
+  // the cadence check pairs of intervals too uneven to ever call steady.
+  if (!high && a > 1.20f && (lastStepAt == 0 || now - lastStepAt >= 250)) {
+    high = true; steps++;
+    if (lastStepAt > 0) {
+      float interval = (now - lastStepAt) / 1000.0f;
+      // CALIBRATE: 1.0-4.0 steps/s. Spec said 1.4-2.6, but a real hand-carried brisk walk
+      // sits right against that ceiling, and the 250ms debounce above already permits
+      // intervals down to 4 steps/s - capping inRange below that let the debounce's own
+      // fastest-allowed intervals fall outside it and reset the streak on a normal stride.
+      bool inRange = interval >= (1.0f / 4.0f) && interval <= (1.0f / 1.0f);
+      // "Steady" just means the rate stays in-range, not that consecutive strides are
+      // near-identical - a real hand-carried walk varies stride to stride more than that,
+      // and the gait-broke-off reset below (>1500ms gap) already catches an actual stop.
+      steadyGaitMs = inRange ? steadyGaitMs + (now - lastStepAt) : 0;
+    }
+    lastStepAt = now;
+  }
+  if (high && a < 1.05f) { high = false; }
+  if (lastStepAt > 0 && now - lastStepAt > 1500) { steadyGaitMs = 0; }  // gait broke off
 }
 
 // Goertzel at 100 Hz over 200 samples @ 2 kHz (100 ms). Returns AC/DC ratio 0..1.
@@ -152,19 +251,13 @@ float flickerRatio() {
   return min(1.0f, (2.0f * sqrt(power) / N) / dc);
 }
 
-// LTR390 has one channel at a time: read ALS, then UVS.
+// BH1750 gives lux directly (one channel, unlike the old LTR390's separate ALS/UVS pair), so
+// als just mirrors lux here - kept as its own field so the "sensors" message shape (and the
+// dashboard parsing it) doesn't change. UV comes from the GUVA-S12SD's analog output: raw ADC
+// counts, UNCALIBRATED, same as the old UVS field was - CALIBRATE against a known UV index source.
 void readLight(float &lux, float &als, float &uvs) {
-  // Not reached if the sensor never answered begin(). Reading it anyway is what produced
-  // "4294967296 lux" on the dashboard: a dead I2C read returns all ones, which is both brighter
-  // than the sun and, since UVS reads the same way, a UV ratio of exactly 1.0 - a fault that
-  // looks like perfect daylight. -1 is the same "not fitted" sentinel the flicker sensor uses.
-  if (!ltrOk) { lux = -1.0f; als = -1.0f; uvs = -1.0f; return; }
-
-  ltr.setMode(LTR390_MODE_ALS);  delay(110);
-  als = ltr.readALS();
-  lux = 0.6f * als / (1.0f * 1.0f);   // datasheet: lux = 0.6*ALS/(gain*int_factor); gain=1, 18-bit=1. CALIBRATE vs a lux meter/phone app
-  ltr.setMode(LTR390_MODE_UVS);  delay(110);
-  uvs = ltr.readUVS();
+  if (!HAS_LIGHT_UV || !bh1750Ok) { lux = -1.0f; als = -1.0f; } else { lux = bh1750Read(); als = lux; }
+  uvs = HAS_LIGHT_UV ? analogRead(PIN_UV) : -1.0f;
 }
 
 void setup() {
@@ -181,20 +274,15 @@ void setup() {
   Bridge.provide_safe("set_alarm", hSetAlarm);
   Bridge.provide_safe("rtc_set",   hRtcSet);
 
-  Wire.begin();
-  Modulino.begin();
-  imu.begin();
-  ltrOk = ltr.begin();
-  if (ltrOk) {
-    ltr.setGain(LTR390_GAIN_1);            // low gain so direct sun doesn't saturate
-    ltr.setResolution(LTR390_RESOLUTION_18BIT);
-  }
+  Wire2.begin();
+  mpuOk = mpuBegin();
+  bh1750Ok = HAS_LIGHT_UV && bh1750Begin();
   lastHeartbeat = millis();
 
   // rtc_get: no call-with-reply in this Bridge, so report what the RTC knows once at boot -
   // the one moment Linux actually needs it (to set its own clock before NTP has had a chance).
-  Wire.beginTransmission(DS3231_ADDR);
-  rtcOk = (Wire.endTransmission() == 0);
+  Wire2.beginTransmission(DS3231_ADDR);
+  rtcOk = (Wire2.endTransmission() == 0);
   if (rtcOk) Bridge.notify("rtc", rtcRead());
 }
 
@@ -209,7 +297,10 @@ void loop() {
   }
   if (locked && (now - lastHeartbeat > WATCHDOG_MS)) setLock(false);   // Linux went quiet
   if (locked && (now - lockedAt > maxLockMs))        setLock(false);   // max lock time
-  if (alarmArmed && now >= alarmAtMs) { alarmArmed = false; alarmOn = true; }  // rings with or without Linux
+  // Wall-clock compare when the RTC answered at boot (survives a power cycle); millis()
+  // countdown otherwise (survives Linux crashing/hanging, same as before this RTC path existed).
+  bool alarmDue = alarmAtUnix ? (rtcNowUnix >= alarmAtUnix) : (now >= alarmAtMs);
+  if (alarmArmed && alarmDue) { alarmArmed = false; alarmOn = true; }  // rings with or without Linux
 
   // --- talk button (debounced) ---
   static unsigned long talkAt = 0;
@@ -222,11 +313,13 @@ void loop() {
   static unsigned long lastReport = 0;
   if (now - lastReport >= 1000) {
     lastReport = now;
+    if (rtcOk) rtcNowUnix = rtcRead();
     float lux, als, uvs;
     readLight(lux, als, uvs);
     float fl = flickerRatio();
     String msg = String(lux, 0) + "," + String(uvs, 0) + "," + String(als, 0) + "," +
-                 String(fl, 3) + "," + String(steps);
+                 String(fl, 3) + "," + String(steps) + "," +
+                 String(mpuOk && cadenceOk() ? 1 : 0) + "," + String(mpuOk && uprightOk() ? 1 : 0);
     Bridge.notify("sensors", msg);
   }
   delay(10);

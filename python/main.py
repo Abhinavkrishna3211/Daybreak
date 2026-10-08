@@ -95,11 +95,11 @@ def _sunrise_today():
 
 # ---- MCU → MPU ------------------------------------------------------------
 def on_sensors(csv: str):
-    """MCU notifies 'lux,uvs,als,flicker,steps' once a second."""
+    """MCU notifies 'lux,uvs,als,flicker,steps,cadence_ok,upright[,debug...]' once a second."""
     global latest
-    lux, uvs, als, flicker, steps = csv.split(",")
-    latest = Sample(lux=float(lux), uvs=float(uvs), als=float(als),
-                    flicker=float(flicker), steps=int(steps))
+    lux, uvs, als, flicker, steps, cadence_ok, upright = csv.split(",")[:7]
+    latest = Sample(lux=float(lux), uvs=float(uvs), als=float(als), flicker=float(flicker),
+                    steps=int(steps), cadence_ok=bool(int(cadence_ok)), upright=bool(int(upright)))
     log_f.write(f"{time.time():.0f},{csv},{gate.state.value}\n")
     trace.append([int(time.time()), round(latest.lux), round(latest.uv_ratio, 3)])
     before = gate.state
@@ -157,7 +157,7 @@ def on_command(wav: str):
         os.remove(wav)  # never keep bedroom audio
     steps_needed = 0
     if latest and gate.state == State.RINGING:
-        steps_needed = max(0, gate.cfg.steps_required - (latest.steps - gate.steps_at_alarm))
+        steps_needed = max(0, gate.cfg.steps_required - gate.verified_steps)
     reply = handle(transcript, jarvis, gate.progress(), steps_needed, pending=pending_confirm)
     speak(reply.say)
     action, data = reply.action, reply.data
@@ -317,7 +317,7 @@ def api_state():
         "demo": bool(CONFIG.get("demo")),
         "alarm": alarm_time,
         "steps_required": gate.cfg.steps_required,
-        "steps_done": max(0, s.steps - gate.steps_at_alarm) if s else 0,
+        "steps_done": gate.verified_steps,
         "sample": s and {"lux": s.lux, "uvs": s.uvs, "als": s.als, "steps": s.steps,
                          "uv_ratio": round(s.uv_ratio, 4), "flicker": s.flicker,
                          # so the page can say "sensor fault" rather than show 4.29e9 lux as a

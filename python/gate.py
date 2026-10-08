@@ -37,6 +37,8 @@ class Sample:
     als: float          # raw visible counts (LTR390 ALS mode)
     steps: int          # cumulative step count since boot
     flicker: float = -1.0  # 0..1 ratio of 100 Hz energy to DC; -1 = sensor not fitted
+    cadence_ok: bool = True  # steady 1.4-2.6 steps/s for >=15s (task 6 walking check)
+    upright: bool = True     # carried, not shaken flat (task 6 walking check)
 
     @property
     def uv_ratio(self) -> float:
@@ -83,7 +85,8 @@ class Gate:
     # ---- lifecycle -------------------------------------------------------
     def reset(self) -> None:
         self.state = State.IDLE
-        self.steps_at_alarm = 0
+        self.verified_steps = 0
+        self._last_raw_steps = 0
         self.valid_s = 0
         self.gap_s = 0
         self.tier_lux: list[float] = []
@@ -93,7 +96,7 @@ class Gate:
     def start_alarm(self, current_steps: int) -> None:
         self.reset()
         self.state = State.RINGING
-        self.steps_at_alarm = current_steps
+        self._last_raw_steps = current_steps
 
     def safety_open(self, reason: str) -> None:
         """Override button, max-lock timer or watchdog."""
@@ -121,9 +124,17 @@ class Gate:
     def update(self, s: Sample) -> State:
         """Call once per second."""
         if self.state in (State.IDLE, State.UNLOCKED):
+            self._last_raw_steps = s.steps
             return self.state
 
-        walked = (s.steps - self.steps_at_alarm) >= self.cfg.steps_required
+        # Only count steps backed by a steady, upright gait - the walking check (task 6) - so
+        # shaking the box in bed or carrying it flat doesn't rack up the required count.
+        delta = s.steps - self._last_raw_steps
+        self._last_raw_steps = s.steps
+        if delta > 0 and s.cadence_ok and s.upright:
+            self.verified_steps += delta
+
+        walked = self.verified_steps >= self.cfg.steps_required
         if self.state == State.RINGING:
             if walked and self.is_daylight(s):
                 self.state = State.DWELL

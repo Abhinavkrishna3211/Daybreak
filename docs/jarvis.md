@@ -55,6 +55,26 @@ so the buzzer rings at the right time even if the Linux side isn't running.
 
 - **All scripts are written by us** (in `assets/sessions/*.md`), voiced by Jarvis, and rendered to WAV once at install (`scripts/render_sessions.py`). Slower speech and pauses come from Piper's `length_scale` and silence markers in the script.
 - **Credit and limits:** "NSDR" (non-sleep deep rest) is a term popularised by Andrew Huberman. Our sessions are original scripts in that style, not his recordings or his words. Daybreak is not affiliated with or endorsed by him. These are relaxation audio, not treatment. If sleeplessness keeps happening, talk to a doctor.
+- **Research basis** (session design choices, not medical claims):
+  - *Breathing reset's double-inhale/long-exhale pattern* ("cyclic sighing") follows the exhale-focused
+    protocol in a remote RCT of 111 adults doing 5 min/day of breathwork for a month: Balban MY, Neri E,
+    Kogon MM, et al. "Brief structured respiration practices enhance mood and reduce physiological arousal."
+    *Cell Reports Medicine* 2023;4(1):100895. Cyclic sighing produced the largest mood gain and respiratory-rate
+    drop of the three breathing patterns tested, beating an equal-time mindfulness control.
+  - *NSDR/yoga nidra's rest-without-full-sleep framing* is supported by EEG work showing increased slow-wave
+    (delta) power at central/parietal sites during yoga nidra while subjects stay responsive - "local sleep"
+    without losing consciousness - and by an RCT in chronic insomnia (Datta K, Tripathi M, Verma M, Masiwal D,
+    Mallick HN. "Yoga nidra practice shows improvement in sleep in patients with chronic insomnia: A randomized
+    controlled trial." *Natl Med J India* 2021;34:143-50) where yoga nidra lowered salivary cortisol (p=0.041)
+    and improved sleep on polysomnography, not just self-report.
+  - *The body-scan/settle-then-rest arc* used in both NSDR sessions matches the structure tested in Moszeik EN,
+    von Oertzen T, Renner KH. "Effectiveness of a short Yoga Nidra meditation on stress, sleep, and well-being
+    in a large and diverse sample." *Psychological Research* 2022;86:2577-89 - an 11-minute recording, 341
+    participants vs. 430 waitlist controls, lower stress and better sleep quality after 30 days, holding at a
+    6-week follow-up.
+  - The often-repeated "yoga nidra boosts striatal dopamine ~65%" claim traces to one 8-person PET study
+    (Kjaer TW et al. 2002) - too small to lean on, so Daybreak's copy never makes a dopamine claim, only a
+    relaxation/rest one.
 - During a session the wake word is still listened for, so "Hey Jarvis, stop" works. At night the session ends in silence (no "goodbye"), so it doesn't wake you up.
 
 ## Data
