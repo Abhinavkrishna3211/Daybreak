@@ -99,6 +99,10 @@ Open `Daybreak.code-workspace` in VS Code. It sets up the Python path, recommend
 |---|---|
 | `app.yaml` | App Lab app: three bricks: `arduino:llm` (Gemma), `arduino:web_ui` (dashboard), `arduino:keyword_spotting` ("Hey Jarvis") |
 | `config.json` | alarm time, address ("sir"), gate thresholds, wake label, model settings, demo mode |
+
+`config.json`'s `location.lat`/`location.lon` ship as `0.0, 0.0` (sunrise would compute for the Gulf of
+Guinea) — edit them to your own coordinates on the board after cloning, so the daylight gate's sunrise
+check matches where the box actually is. That edit is yours to keep local; don't commit it back.
 | `python/main.py` | entry point App Lab runs: Bridge wiring, alarm, Jarvis flows; ends with `App.run()` |
 | `python/gate.py` | daylight gate: steps → daylight check → dwell timer |
 | `python/planner.py` | spoken plan → rules extract times → Gemma structures → validator |
