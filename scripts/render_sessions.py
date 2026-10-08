@@ -68,6 +68,7 @@ def render_session(md_path: pathlib.Path, out_path: pathlib.Path) -> None:
     parts = _PAUSE.split(_script_lines(md_path))  # text, seconds, text, seconds, ...
     rate = None
     chunks = []
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     tmp = out_path.with_suffix(".part.wav")
     for i, part in enumerate(parts):
         if i % 2 == 1:
@@ -82,7 +83,6 @@ def render_session(md_path: pathlib.Path, out_path: pathlib.Path) -> None:
             chunks.append(np.frombuffer(wf.readframes(wf.getnframes()), dtype=np.int16))
     tmp.unlink(missing_ok=True)
 
-    out_path.parent.mkdir(parents=True, exist_ok=True)
     with wave.open(str(out_path), "wb") as wf:
         wf.setnchannels(1)
         wf.setsampwidth(2)
