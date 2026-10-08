@@ -1,0 +1,73 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "python.analysis.extraPaths": [
+      "python"
+    ],
+    "python.testing.pytestEnabled": true,
+    "python.testing.pytestArgs": [
+      "tests",
+      "-q"
+    ],
+    "files.associations": {
+      "*.ino": "cpp"
+    },
+    "files.eol": "\n",
+    "editor.rulers": [
+      100
+    ],
+    "files.exclude": {
+      "**/__pycache__": true,
+      "**/.pytest_cache": true
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "ms-vscode.cpptools",
+      "ms-vscode-remote.remote-ssh",
+      "yzhang.markdown-all-in-one",
+      "mechatroner.rainbow-csv",
+      "redhat.vscode-yaml"
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Run tests",
+        "type": "shell",
+        "command": "python -m pytest -q",
+        "group": "test"
+      },
+      {
+        "label": "Pull latest on board",
+        "type": "shell",
+        "command": "ssh arduino@${input:board} 'cd ~/ArduinoApps/daybreak && git pull'"
+      },
+      {
+        "label": "Restart app on board",
+        "type": "shell",
+        "command": "ssh arduino@${input:board} 'arduino-app-cli app stop user:daybreak; arduino-app-cli app start user:daybreak'"
+      },
+      {
+        "label": "Board logs",
+        "type": "shell",
+        "command": "ssh arduino@${input:board} 'arduino-app-cli app logs user:daybreak --all'"
+      }
+    ],
+    "inputs": [
+      {
+        "id": "board",
+        "type": "promptString",
+        "description": "Board host",
+        "default": "unoq.local"
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+# Installed by the app container's /run.sh with `uv pip install -r`, into a venv created with
+# --system-site-packages so the image's own `arduino` package stays visible. Installed once and
+# cached in .cache/installed_requirements.txt; only a change to this file reinstalls.
+#
+# Both of these are versions measured on this board (docs/measurements.md T3/T4), and both ship
+# prebuilt aarch64 wheels - which is not a detail: the app image has no gcc, g++, cmake or make,
+# so anything needing a source build cannot be installed here at all. If PyPI is ever out of
+# reach, /run.sh also installs any wheel dropped in python-libraries/.
+pywhispercpp==1.5.1
+piper-tts==1.8.0

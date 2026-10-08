@@ -1,0 +1,42 @@
+{
+  "demo": true,
+  "alarm": "06:30",
+  "bedtime": "22:00",
+  "max_lock_min": 90,
+  "record_s": 20,
+  "habit": {
+    "sleep_goal_h": 8.0,
+    "winddown_min": 30,
+    "weekend_flex_min": 30,
+    "shift_step_min": 15,
+    "shift_every_days": 3
+  },
+  "gate": {
+    "steps_required": 40,
+    "lux_min": 1000,
+    "uv_ratio_min": 0.02,
+    "flicker_max": 0.1,
+    "grace_s": 90
+  },
+  "voice": {
+    "mic_device": 0,
+    "speaker_device": "plughw:CARD=ArduinoImolaHPH,DEV=0",
+    "whisper_model": "base.en",
+    "whisper_audio_ctx": 512,
+    "piper_voice": "/app/voices/en_GB-northern_english_male-medium.onnx",
+    "llm_url": "http://127.0.0.1:8080/v1",
+    "llm_model": "gemma-3-1b-it-qat-Q4_0",
+    "llm_gguf": "/home/arduino/daybreak-models/google_gemma-3-1b-it-qat-Q4_0.gguf",
+    "llm_timeout_s": 180
+  },
+  "location": {
+    "lat": 0.0,
+    "lon": 0.0,
+    "tz_offset_h": 5.5
+  },
+  "address": "sir",
+  "wake_word": true,
+  "wake_engine": "edge_impulse",
+  "wake_label": "JARVIS",
+  "wake_confidence": 0.75
+}

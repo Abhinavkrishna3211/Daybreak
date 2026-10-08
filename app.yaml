@@ -1,0 +1,23 @@
+name: Daybreak
+description: "Offline bedside box that keeps your phone until you've stood in real daylight, then Jarvis reads you your day."
+icon: "🌅"
+ports: [7000]
+bricks:
+  # No arduino:llm here on purpose, and not because of the App Lab version. The brick is defined
+  # in the installed assets, but it needs the arduino:genie service, which needs /dev/fastrpc-cdsp
+  # and the Hexagon firmware — neither of which this board image provisions, so the daemon does
+  # not offer the brick at all (see docs/measurements.md, "The NPU bricks exist in the installed
+  # assets"). Its model is also Qwen3 4B, not Gemma, so adopting it would be a different build
+  # rather than the same one accelerated.
+  #
+  # Gemma therefore runs as llama-server on the Linux host, outside this app and outside the
+  # container App Lab runs the app in. The app connects to it, and cannot start it: the container
+  # has no access to the docker socket, so it has no way to launch or supervise a host process.
+  # Supervision is a systemd user unit, scripts/daybreak-llm.service (see TUTORIAL.md step 7).
+  # python/llm.py resolves the host's address from inside the container, and the dashboard shows
+  # `llm: false` whenever the server is not answering.
+  - arduino:web_ui
+  - arduino:keyword_spotting:
+      variables:
+        # our Edge Impulse "Hey Jarvis" model (label "JARVIS"); copy the .eim to this path on the board
+        EI_KEYWORD_SPOTTING_MODEL: /home/arduino/.arduino-bricks/ei-models/hey-jarvis.eim

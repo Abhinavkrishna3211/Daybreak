@@ -1,0 +1,27 @@
+# models & binaries
+*.gguf
+*.bin
+*.onnx
+*.onnx.json
+*.eim
+models/
+
+# runtime state & recordings
+state/
+data/app/
+*.wav
+!assets/audio/*.wav
+
+# bench scratch: a resumed run's partial rows, and the pre-rescore copy a rewrite keeps.
+# Both are local safety nets. The results are the csv; the evidence is llm_raw.jsonl.
+*.bak
+*.partial-*
+*.pre_mmap_redo
+
+# python / editors
+__pycache__/
+.pytest_cache/
+.venv/
+*.pyc
+.DS_Store
+Thumbs.db
