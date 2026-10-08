@@ -222,7 +222,10 @@ def on_command(wav: str):
             habit.record_phone_down(DATA)
             target = _target_phone_down(a["time"])
             late = dt.datetime.now().strftime("%H:%M") > target
-            Bridge.call("lock", CONFIG.get("max_lock_min", 90))
+            # minutes until the alarm, not the gate's flat max_lock_min - a night lock has to
+            # survive until morning, not release partway through the night.
+            mins_until_alarm = _seconds_until(a["time"]) // 60
+            Bridge.call("lock", mins_until_alarm + CONFIG.get("max_lock_min", 90))
             speak(jarvis.locked_for_night(a["time"], late))
     elif action == "habit_week":
         _speak_weekly_review()
