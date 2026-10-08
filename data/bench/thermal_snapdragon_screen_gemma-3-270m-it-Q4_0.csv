@@ -1,0 +1,2 @@
+t_s,load1,mem_avail_mb,temp_zone0_c,temp_zone1_c,temp_zone2_c,temp_zone3_c,temp_zone4_c,temp_zone5_c,temp_zone6_c,temp_zone7_c,temp_zone8_c,temp_zone9_c,khz_cpu0,khz_cpu1,khz_cpu2,khz_cpu3
+0,1.95,3123,48.4,48.1,46.8,48.7,48.7,46.8,46.5,46.5,48.4,47.1,2016000,2016000,2016000,2016000

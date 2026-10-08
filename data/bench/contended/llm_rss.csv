@@ -1,0 +1,4 @@
+build,model_id,model_file,peak_rss_kb,wall_s,cli_pp_ts,cli_tg_ts
+cpu,gemma-3-1b-it-Q4_0,gemma-3-1b-it-Q4_0.gguf,944224,53,3.5,1.0
+cpu,gemma-3-1b-it-Q4_K_M,gemma-3-1b-it-Q4_K_M.gguf,1017228,52,2.9,1.0
+cpu,gemma-3-270m-it-F16,gemma-3-270m-it-F16.gguf,4,0,,

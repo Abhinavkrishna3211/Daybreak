@@ -1,0 +1,6 @@
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so

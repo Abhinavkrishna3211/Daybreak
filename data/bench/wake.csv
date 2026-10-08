@@ -1,0 +1,5 @@
+ts,run,mic,distance,noise,label,threshold,expected,detected,recall,false_accepts,minutes,windows,score_median,score_p90,score_max,infer_ms_median,sweep,note
+2026-10-08T05:48:11,T5-1m-quiet,camera-builtin,1m,quiet,JARVIS,0.8,20,15,0.75,,2.51,599,0.0664,0.4297,0.9023,29.9,0.5:18 0.6:18 0.7:18 0.75:18 0.8:15 0.85:10 0.9:1 0.95:0,
+2026-10-08T05:54:22,T5-3m-quiet,camera-builtin,3m,quiet,JARVIS,0.8,25,22,0.88,,2.51,599,0.0703,0.6914,0.9258,30.4,0.5:25 0.6:25 0.7:24 0.75:24 0.8:22 0.85:17 0.9:3 0.95:0,
+2026-10-08T06:04:41,T5-3m-fan,camera-builtin,3m,fan,JARVIS,0.8,19,17,0.895,,2.51,599,0.0781,0.5312,0.9297,30.7,0.5:20 0.6:20 0.7:19 0.75:19 0.8:17 0.85:11 0.9:3 0.95:0,
+2026-10-08T06:17:11,T5-falsewake-10min,camera-builtin,,speech,JARVIS,0.8,,,,1,10.0,2397,0.0781,0.2578,0.8047,56.0,0.5:21 0.6:6 0.7:2 0.75:1 0.8:1 0.85:0 0.9:0 0.95:0,

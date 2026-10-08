@@ -1,0 +1,16 @@
+S0,gemma-3-270m-it-Q4_0
+S2,gemma-3-270m-it-Q4_0
+S3,gemma-3-270m-it-Q4_0
+S4,gemma-3-270m-it-Q4_0
+S0,gemma-3-1b-it-Q4_0
+S2,gemma-3-1b-it-Q4_0
+S3,gemma-3-1b-it-Q4_0
+S4,gemma-3-1b-it-Q4_0
+S0,google_gemma-3-1b-it-qat-Q4_0
+S0,gemma-3-270m-qat-Q4_0
+S0g-P,gemma-3-1b-it-Q4_0
+S0g-P,google_gemma-3-1b-it-qat-Q4_0
+S0g-P,gemma-3-270m-it-Q4_0
+S0g-P,gemma-3-270m-qat-Q4_0
+S0s-B,gemma-3-1b-it-Q4_0
+S0s-B,google_gemma-3-1b-it-qat-Q4_0

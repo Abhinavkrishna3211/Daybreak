@@ -1,0 +1,20 @@
+{"id": "p01", "transcript": "Tomorrow I have a lab at 9:30 am in the ECE block, then lunch with Amal at noon.", "expected_times": ["09:30", "12:00"], "expected_places": ["ECE block"]}
+{"id": "p02", "transcript": "Bus at 7:45, college till 4, then gym at 6 in the evening.", "expected_times": ["07:45", "18:00"], "expected_places": [], "note": "'till 4' is an end time, not an event"}
+{"id": "p03", "transcript": "Meeting with Joseph sir at 10 in the seminar hall.", "expected_times": ["10:00"], "expected_places": ["seminar hall"]}
+{"id": "p04", "transcript": "I need to submit the record at 11 and call amma at 8 pm.", "expected_times": ["11:00", "20:00"], "expected_places": []}
+{"id": "p05", "transcript": "Workshop at half past nine at the IoT lab, then lunch at 1.", "expected_times": ["09:30", "13:00"], "expected_places": ["IoT lab"]}
+{"id": "p06", "transcript": "Dentist appointment at quarter to five at Perinthalmanna.", "expected_times": ["16:45"], "expected_places": ["Perinthalmanna"]}
+{"id": "p07", "transcript": "Nothing much, just finish the PCB layout and sleep early.", "expected_times": [], "expected_places": []}
+{"id": "p08", "transcript": "Pick up the parts from the courier office at 10 am and print the enclosure.", "expected_times": ["10:00"], "expected_places": ["courier office"]}
+{"id": "p09", "transcript": "Project call at 7:30 pm with the team.", "expected_times": ["19:30"], "expected_places": []}
+{"id": "p10", "transcript": "Go for a run at 6 am at the ground, then breakfast at 7:30.", "expected_times": ["06:00", "07:30"], "expected_places": ["ground"]}
+{"id": "p11", "transcript": "Viva at 2 at the main block.", "expected_times": ["14:00"], "expected_places": ["main block"]}
+{"id": "p12", "transcript": "I have to meet Rahul at the library at 3 and buy filament.", "expected_times": ["15:00"], "expected_places": ["library"]}
+{"id": "p13", "transcript": "Class at 8:45, assignment due at midnight, and badminton at 5 pm.", "expected_times": ["00:00", "08:45", "17:00"], "expected_places": [], "note": "'midnight' -> 00:00"}
+{"id": "p14", "transcript": "Webinar at 9 pm, before that groceries at 6 in the evening.", "expected_times": ["18:00", "21:00"], "expected_places": []}
+{"id": "p15", "transcript": "Train to Kochi at 6:15 am from Tirur station.", "expected_times": ["06:15"], "expected_places": ["Tirur station"]}
+{"id": "p16", "transcript": "Edge Impulse call at 8 30 pm.", "expected_times": ["20:30"], "expected_places": [], "note": "Whisper drops the colon: '8 30 pm' -> 20:30, not 08:00"}
+{"id": "p17", "transcript": "Wake up, walk, then mentoring session at 4 at MACE.", "expected_times": ["16:00"], "expected_places": ["MACE"]}
+{"id": "p18", "transcript": "Lunch with family at 1 pm at home and movie at 9.", "expected_times": ["13:00", "21:00"], "expected_places": ["home"], "note": "bare 'movie at 9' follows '1 pm' -> evening, 21:00"}
+{"id": "p19", "transcript": "Record the demo video at 7 in the morning in the garden.", "expected_times": ["07:00"], "expected_places": ["garden"]}
+{"id": "p20", "transcript": "Submit the report by 10 pm, call Marc at 7.", "expected_times": ["19:00", "22:00"], "expected_places": [], "note": "bare 'at 7' follows 'by 10 pm' -> evening, 19:00"}

@@ -1,0 +1,121 @@
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+ggml_opencl: selected platform: 'rusticl'
+
+ggml_opencl: device: 'FD702 (OpenCL 3.0 )'
+ggml_opencl: unsupported GPU 'FD702'.
+ggml_opencl: drop unsupported device 'FD702'.
+ggml-hex: Loading driver libcdsprpc.so
+ggml-hex: failed to load libcdsprpc.so: libcdsprpc.so: cannot open shared object file: No such file or directory
+scripts/bench/llm_speed.sh: line 52: 169933 Illegal instruction     "$BIN/llama-bench" -m "$1" -t 4 -p 160 -n 32 -fa 0 -r 2 -o csv
+ggml_opencl: selected platform: 'rusticl'
+
+ggml_opencl: device: 'FD702 (OpenCL 3.0 )'
+ggml_opencl: unsupported GPU 'FD702'.
+ggml_opencl: drop unsupported device 'FD702'.
+ggml-hex: Loading driver libcdsprpc.so
+ggml-hex: failed to load libcdsprpc.so: libcdsprpc.so: cannot open shared object file: No such file or directory
+scripts/bench/llm_speed.sh: line 52: 170099 Illegal instruction     "$BIN/llama-bench" -m "$1" -t 4 -p 160 -n 32 -fa 0 -r 2 -o csv
+ggml_opencl: selected platform: 'rusticl'
+
+ggml_opencl: device: 'FD702 (OpenCL 3.0 )'
+ggml_opencl: unsupported GPU 'FD702'.
+ggml_opencl: drop unsupported device 'FD702'.
+ggml-hex: Loading driver libcdsprpc.so
+ggml-hex: failed to load libcdsprpc.so: libcdsprpc.so: cannot open shared object file: No such file or directory
+scripts/bench/llm_speed.sh: line 52: 170236 Illegal instruction     "$BIN/llama-bench" -m "$1" -t 4 -p 160 -n 32 -fa 0 -r 2 -o csv
+ggml_opencl: selected platform: 'rusticl'
+
+ggml_opencl: device: 'FD702 (OpenCL 3.0 )'
+ggml_opencl: unsupported GPU 'FD702'.
+ggml_opencl: drop unsupported device 'FD702'.
+ggml-hex: Loading driver libcdsprpc.so
+ggml-hex: failed to load libcdsprpc.so: libcdsprpc.so: cannot open shared object file: No such file or directory
+scripts/bench/llm_speed.sh: line 52: 170404 Illegal instruction     "$BIN/llama-bench" -m "$1" -t 4 -p 160 -n 32 -fa 0 -r 2 -o csv
+ggml_opencl: selected platform: 'rusticl'
+
+ggml_opencl: device: 'FD702 (OpenCL 3.0 )'
+ggml_opencl: unsupported GPU 'FD702'.
+ggml_opencl: drop unsupported device 'FD702'.
+ggml-hex: Loading driver libcdsprpc.so
+ggml-hex: failed to load libcdsprpc.so: libcdsprpc.so: cannot open shared object file: No such file or directory
+scripts/bench/llm_speed.sh: line 52: 170508 Illegal instruction     "$BIN/llama-bench" -m "$1" -t 4 -p 160 -n 32 -fa 0 -r 2 -o csv
+ggml_opencl: selected platform: 'rusticl'
+
+ggml_opencl: device: 'FD702 (OpenCL 3.0 )'
+ggml_opencl: unsupported GPU 'FD702'.
+ggml_opencl: drop unsupported device 'FD702'.
+ggml-hex: Loading driver libcdsprpc.so
+ggml-hex: failed to load libcdsprpc.so: libcdsprpc.so: cannot open shared object file: No such file or directory
+scripts/bench/llm_speed.sh: line 52: 170619 Illegal instruction     "$BIN/llama-bench" -m "$1" -t 4 -p 160 -n 32 -fa 0 -r 2 -o csv
+ggml_opencl: selected platform: 'rusticl'
+
+ggml_opencl: device: 'FD702 (OpenCL 3.0 )'
+ggml_opencl: unsupported GPU 'FD702'.
+ggml_opencl: drop unsupported device 'FD702'.
+ggml-hex: Loading driver libcdsprpc.so
+ggml-hex: failed to load libcdsprpc.so: libcdsprpc.so: cannot open shared object file: No such file or directory
+scripts/bench/llm_speed.sh: line 52: 170715 Illegal instruction     "$BIN/llama-bench" -m "$1" -t 4 -p 160 -n 32 -fa 0 -r 2 -o csv
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+scripts/bench/llm_speed.sh: line 54:  8913 Killed                  "$BIN/llama-bench" -m "$1" -t 1,2,3,4 -p 64,160,320 -n 32,96 -fa 0,1 -r 3 -o csv
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+error: invalid parameter for argument: -mmp
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+error: invalid parameter for argument: -mmp

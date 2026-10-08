@@ -1,0 +1,232 @@
+# T0 board baseline — 2026-10-07T12:07:36+00:00
+
+## uname
+Linux daybreak 7.0.0-g122c2c22d838 #1 SMP PREEMPT Tue May 19 15:08:13 UTC 2026 aarch64 GNU/Linux
+
+## os-release
+PRETTY_NAME="Debian GNU/Linux 13 (trixie)"
+NAME="Debian GNU/Linux"
+VERSION_ID="13"
+VERSION="13 (trixie)"
+VERSION_CODENAME=trixie
+DEBIAN_VERSION_FULL=13.5
+ID=debian
+HOME_URL="https://www.debian.org/"
+SUPPORT_URL="https://www.debian.org/support"
+BUG_REPORT_URL="https://bugs.debian.org/"
+
+## model
+Arduino UnoQ
+
+## cpu
+nproc=4
+Architecture:                            aarch64
+CPU(s):                                  4
+On-line CPU(s) list:                     0-3
+Model name:                              Kryo-V2
+CPU(s) scaling MHz:                      100%
+CPU max MHz:                             2016.0000
+CPU min MHz:                             300.0000
+NUMA node0 CPU(s):                       0-3
+
+## cpu-features
+Features	: fp asimd evtstrm aes pmull sha1 sha2 crc32 cpuid
+CPU part	: 0x801
+asimddp: no
+i8mm: no
+fphp: no
+sve: no
+
+## cpufreq
+/sys/devices/system/cpu/cpu0/cpufreq gov=schedutil min=300000 max=2016000 cur=1804800
+/sys/devices/system/cpu/cpu1/cpufreq gov=schedutil min=300000 max=2016000 cur=1612800
+/sys/devices/system/cpu/cpu2/cpufreq gov=schedutil min=300000 max=2016000 cur=1612800
+/sys/devices/system/cpu/cpu3/cpufreq gov=schedutil min=300000 max=2016000 cur=1420800
+available_governors=ondemand userspace performance schedutil 
+available_freqs=300000 614400 864000 1017600 1305600 1420800 1612800 1804800 2016000 
+governor: read-only (no sudo -> cannot pin 'performance')
+
+## thermal-trips
+/sys/class/thermal/thermal_zone0/trip_point_0_temp = 90000
+/sys/class/thermal/thermal_zone0/trip_point_1_temp = 95000
+/sys/class/thermal/thermal_zone0/trip_point_2_temp = 110000
+/sys/class/thermal/thermal_zone1/trip_point_0_temp = 90000
+/sys/class/thermal/thermal_zone1/trip_point_1_temp = 95000
+/sys/class/thermal/thermal_zone1/trip_point_2_temp = 110000
+/sys/class/thermal/thermal_zone2/trip_point_0_temp = 90000
+/sys/class/thermal/thermal_zone2/trip_point_1_temp = 95000
+/sys/class/thermal/thermal_zone2/trip_point_2_temp = 110000
+/sys/class/thermal/thermal_zone3/trip_point_0_temp = 90000
+/sys/class/thermal/thermal_zone3/trip_point_1_temp = 95000
+/sys/class/thermal/thermal_zone3/trip_point_2_temp = 110000
+/sys/class/thermal/thermal_zone4/trip_point_0_temp = 90000
+/sys/class/thermal/thermal_zone4/trip_point_1_temp = 95000
+/sys/class/thermal/thermal_zone4/trip_point_2_temp = 110000
+/sys/class/thermal/thermal_zone5/trip_point_0_temp = 90000
+/sys/class/thermal/thermal_zone5/trip_point_1_temp = 95000
+/sys/class/thermal/thermal_zone5/trip_point_2_temp = 110000
+/sys/class/thermal/thermal_zone6/trip_point_0_temp = 90000
+/sys/class/thermal/thermal_zone6/trip_point_1_temp = 95000
+
+## accel
+libcdsprpc.so: MISSING
+libOpenCL.so.1: /usr/lib/aarch64-linux-gnu/libOpenCL.so.1
+libadreno_utils.so: MISSING
+dsp/gpu nodes: dri fastrpc-adsp 
+kgsl class: absent
+opencl icd: rusticl.icd 
+
+## toolchain
+gcc: MISSING
+cmake: MISSING
+tmux: MISSING
+stress-ng: MISSING
+/usr/bin/time: MISSING
+python3: /usr/bin/python3
+curl: /usr/bin/curl
+jq: /usr/bin/jq
+sudo: password required
+
+## llamacpp
+--- /home/arduino/llamacpp/cpu/llama-b11449/
+load_backend: loaded RPC backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-rpc.so
+load_backend: loaded CPU backend from /home/arduino/llamacpp/cpu/llama-b11449/libggml-cpu-armv8.0_1.so
+version: 0.6.0-dev (build 11449, commit 65840ed53)
+built with GNU 14.2.0 for Linux aarch64
+--- /home/arduino/llamacpp/snapdragon/llama-b11449/bin/
+version: 0.6.0-dev (build 11449, commit 65840ed53)
+built with Clang 21.1.8 for Linux arm64
+
+## memory
+               total        used        free      shared  buff/cache   available
+Mem:            3667         507        2782          38         556        3159
+Swap:           1833           0        1833
+
+## swap
+Filename				Type		Size		Used		Priority
+/dev/zram0                              partition	1877576		0		100
+swappiness=60
+
+## disk
+/dev/mmcblk0p68  9.8G  5.0G  4.4G  54% /
+/dev/mmcblk0p69   18G  5.0G   13G  30% /home/arduino
+Filesystem       Size  Used Avail Use% Mounted on
+models dir lives on: /dev/mmcblk0p69   18G  5.0G   13G  30% /home/arduino
+
+## thermal-idle
+thermal_zone0 mapss-thermal 41200
+thermal_zone1 video-thermal 40900
+thermal_zone2 wlan-thermal 39600
+thermal_zone3 cpuss0-thermal 41500
+thermal_zone4 cpuss1-thermal 41200
+thermal_zone5 mdm0-thermal 40000
+thermal_zone6 mdm1-thermal 39600
+thermal_zone7 gpu-thermal 39000
+thermal_zone8 hm-center-thermal 41500
+thermal_zone9 camera-thermal 40300
+
+## uptime-load
+ 12:07:38 up 3 min,  1 user,  load average: 0.29, 0.47, 0.22
+
+## app-lab-cli
+Arduino App CLI version 0.11.0
+daemon version: 0.11.0
+
+## app-lab-apps
+ID                                             NAME                                ICON STATUS        EXAMPLE 
+examples:air-quality-monitoring                Air quality on LED matrix           🍃   uninitialized true    
+examples:anomaly-detection                     Concrete crack detector             🧱   uninitialized true    
+examples:audio-classification                  Glass breaking sensor               🪟   uninitialized true    
+examples:bedtime-story-teller                  Bedtime story teller                🏰   uninitialized true    
+examples:blink                                 Blink LED                           🔴   uninitialized true    
+examples:blink-with-ui                         Blink LED with UI                   💡   uninitialized true    
+examples:chatbot-cloud-llm                     Cloud AI Assistant                  ✨   uninitialized true    
+examples:cloud-blink                           Blinking LED from Arduino Cloud     ☁️    uninitialized true    
+examples:code-detector                         QR and Barcode Scanner              📦   uninitialized true    
+examples:color-your-leds                       Color your LEDs                     🎨   uninitialized true    
+examples:home-climate-monitoring-and-storage   Home climate monitoring and storage 🎛️    uninitialized true    
+examples:image-classification                  Classify images                     📊   uninitialized true    
+examples:keyword-spotting                      Hey Arduino!                        ❤️    uninitialized true    
+examples:led-matrix-painter                    Led Matrix Painter                  🟦   uninitialized true    
+examples:mascot-jump-game                      Mascot Jump Game                    🏃   uninitialized true    
+examples:mobile-video-generic-object-detection Detect Objects on Smartphone Camera 📽️    uninitialized true    
+examples:music-composer                        Music Composer                      🎵   uninitialized true    
+examples:object-detection                      Detect objects on images            🏞️    uninitialized true    
+examples:object-hunting                        Object Hunting                      🔍   uninitialized true    
+examples:real-time-accelerometer               Real-time Accelerometer             🐍   uninitialized true    
+examples:system-resources-logger               System resources logger             📈   uninitialized true    
+examples:telegram-bot                          Telegram Bot                        🤖   uninitialized true    
+examples:theremin                              Theremin simulator                  🎼   uninitialized true    
+examples:unoq-pin-toggle                       UNO Q Pin Toggle                    📌   uninitialized true    
+examples:vibration-anomaly-detection           Fan Vibration Monitoring            🌀   uninitialized true    
+examples:video-face-detection                  Face Detector on Camera             ☺️    uninitialized true    
+examples:video-generic-object-detection        Detect Objects on Camera            📽️    uninitialized true    
+examples:video-person-classification           Person classifier on camera         🚶‍♂️  uninitialized true    
+examples:weather-forecast                      Weather forecast on LED matrix      ☀️    uninitialized true    
+user:daybreak                                  Daybreak                            🌅   uninitialized false   
+
+## llm-brick-models
+{"models":[{"id":"face-detection","name":"Lightweight-Face-Detection","description":"A small and accurate model for detecting bounding boxes for faces in images.","runner":"brick","brick_ids":["arduino:object_detection","arduino:video_object_detection"],"metadata":{"ei-impulse-id":"3","ei-model-url":"https://studio.edgeimpulse.com/public/830703/live","ei-project-id":"830703","image-resolution":"320x240","source":"qualcomm-ai-hub","source-model-id":"face-det-lite","source-model-url":"https://aihub.qualcomm.com/models/face_det_lite"},"is_builtin":true},{"id":"yolox-object-detection","name":"General purpose object detection - YoloX nano","description":"General purpose object detection model based on YoloX-Nano. This model is trained on the COCO dataset and can detect 80 different object classes.","runner":"brick","brick_ids":["arduino:object_detection","arduino:video_object_detection"],"metadata":{"ei-impulse-id":"1","ei-model-url":"https://studio.edgeimpulse.com/public/717280/live","ei-project-id":"717280","image-resolution":"416x416","source":"edgeimpulse","source-model-id":"YOLOX-Nano","source-model-url":"https://github.com/Megvii-BaseDetection/YOLOX"},"is_builtin":true},{"id":"mobilenet-image-classification","name":"General purpose image classification","description":"General purpose image classification model based on MobileNetV2. This model is trained on the ImageNet dataset and can classify images into 1000 categories.","runner":"brick","brick_ids":["arduino:image_classification","arduino:video_image_classification"],"metadata":{"ei-model-url":"https://studio.edgeimpulse.com/public/708500/live","ei-project-id":"708500","source":"edgeimpulse","source-model-id":"MobileNetV2","source-model-url":"https://www.tensorflow.org/api_docs/python/tf/keras/applications/MobileNetV2"},"is_builtin":true},{"id":"person-classification","name":"Person classification","description":"Person classification model based on WakeVision dataset. This model is trained to classify images into two categories: person and not-person.","runner":"brick","brick_ids":["arduino:image_classification","arduino:video_image_classification"],"metadata":{"ei-impulse-id":"1","ei-model-url":"https://studio.edgeimpulse.com/public/755016/live","ei-project-id":"755016","image-resolution":"224x224","source":"edgeimpulse","source-model-id":"person-classification-wakevision","source-model-url":"https://studio.edgeimpulse.com/public/755016/live"},"is_builtin":true},{"id":"concreate-crack-anomaly-detection","name":"Concrete crack anomaly detection","description":"Anomaly detection model to identify cracks in concrete structures.","runner":"brick","brick_ids":["arduino:visual_anomaly_detection"],"metadata":{"ei-model-url":"https://studio.edgeimpulse.com/public/800941/live","ei-project-id":"800941","image-resolution":"160x160","source":"edgeimpulse","source-model-id":"concrete-crack-anomaly-detection","source-model-url":"https://studio.edgeimpulse.com/public/800941/live"},"is_builtin":true},{"id":"keyword-spotting-hey-arduino","name":"Keyword spotting - Hey Arduino!","description":"A keyword-spotting model to detect the 'Hey Arduino!' in audio streams.","runner":"brick","brick_ids":["arduino:keyword_spotting"],"metadata":{"ei-impulse-id":"30","ei-model-url":"https://studio.edgeimpulse.com/studio/757509/live","ei-project-id":"757509","private":"true","source":"edgeimpulse","source-model-id":"hey-arduino","source-model-url":"https://studio.edgeimpulse.com/studio/757509/live"},"is_builtin":true},{"id":"updown-wave-motion-detection","name":"Continuous motion detection","description":"A motion detection model designed to identify up/down, wave, and snake movements evalauting accelerometer data.","runner":"brick","brick_ids":["arduino:motion_detection"],"metadata":{"ei-model-url":"https://studio.edgeimpulse.com/public/734960/live","ei-project-id":"734960","source":"edgeimpulse","source-model-id":"continuous-motion-detection","source-model-url":"https://studio.edgeimpulse.com/public/734960/live"},"is_builtin":true},{"id":"fan-anomaly-detection","name":"Fan anomaly detection","description":"An anomaly detection model designed to identify anomalies in fan operation.","runner":"brick","brick_ids":["arduino:vibration_anomaly_detection"],"metadata":{"ei-model-url":"https://studio.edgeimpulse.com/public/774707/live","ei-project-id":"774707","source":"edgeimpulse","source-model-id":"fan-anomaly-detection","source-model-url":"https://studio.edgeimpulse.com/public/774707/live"},"is_builtin":true},{"id":"glass-breaking","name":"Glass breaking classifier","description":"A glass breaking classifier model to detect glass breaking sounds in audio recordings","runner":"brick","brick_ids":["arduino:audio_classification"],"metadata":{"ei-model-url":"https://studio.edgeimpulse.com/public/749446/live","ei-project-id":"749446","private":"true","source":"edgeimpulse","source-model-id":"glass-breaking","source-model-url":"https://studio.edgeimpulse.com/public/749446/live"},"is_builtin":true},{"id":"hand-gestures","name":"Hand gestures","description":"A lightweight vision model that detects four hand gestures: neutral fist, open hand (five), V-sign (peace), and thumbs-up (good).","runner":"brick","brick_ids":["arduino:object_detection","arduino:video_object_detection"],"metadata":{"ei-model-url":"https://studio.edgeimpulse.com/public/842271/live","ei-project-id":"842271","source":"edgeimpulse","source-model-id":"hand-gestures","source-model-url":"https://studio.edgeimpulse.com/public/842271/live"},"is_builtin":true},{"id":"gesture-recognition","name":"MediaPipe Hand-Gesture Recognition","description":"The MediaPipe Gesture Recognizer is a real-time machine learning pipeline that detects hands, predicts 21 hand landmarks, determines handedness (left/right), and classifies gestures from a predefined set.","runner":"brick","brick_ids":["arduino:gesture_recognition"],"metadata":{"source":"qualcomm-ai-hub","source-model-id":"mediapipe_hand_gesture","source-model-url":"https://aihub.qualcomm.com/models/mediapipe_hand_gesture"},"is_builtin":true}]}
+
+## llm-runner-9999
+(no runner on :9999)
+
+## audio-in
+**** List of CAPTURE Hardware Devices ****
+card 0: Camera [USB 2.0 Camera], device 0: USB Audio [USB Audio]
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 0: MultiMedia1 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 1: MultiMedia2 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 2: MultiMedia3 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 3: MultiMedia4 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+
+## audio-out
+**** List of PLAYBACK Hardware Devices ****
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 0: MultiMedia1 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 1: MultiMedia2 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 2: MultiMedia3 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+card 1: ArduinoImolaHPH [Arduino-Imola-HPH-LOUT], device 3: MultiMedia4 (*) []
+  Subdevices: 1/1
+  Subdevice #0: subdevice #0
+
+## installed-models
+total 3834384
+drwxrwxr-x  2 arduino arduino       4096 Oct  6 20:09 .
+drwxr-xr-x 22 arduino arduino       4096 Oct  7 12:07 ..
+-rw-rw-r--  1 arduino arduino  721918496 Oct  6 19:44 gemma-3-1b-it-Q4_0.gguf
+-rw-rw-r--  1 arduino arduino  806058272 Oct  6 19:55 gemma-3-1b-it-Q4_K_M.gguf
+-rw-rw-r--  1 arduino arduino 1069306400 Oct  6 20:09 gemma-3-1b-it-Q8_0.gguf
+-rw-rw-r--  1 arduino arduino  542835488 Oct  6 19:31 gemma-3-270m-it-F16.gguf
+-rw-rw-r--  1 arduino arduino  241574944 Oct  6 19:03 gemma-3-270m-it-Q4_0.gguf
+-rw-rw-r--  1 arduino arduino  253115424 Oct  6 19:25 gemma-3-270m-it-Q4_K_M.gguf
+-rw-rw-r--  1 arduino arduino  291546144 Oct  6 19:21 gemma-3-270m-it-Q8_0.gguf
+689M	/home/arduino/daybreak-models/gemma-3-1b-it-Q4_0.gguf
+769M	/home/arduino/daybreak-models/gemma-3-1b-it-Q4_K_M.gguf
+1020M	/home/arduino/daybreak-models/gemma-3-1b-it-Q8_0.gguf
+518M	/home/arduino/daybreak-models/gemma-3-270m-it-F16.gguf
+231M	/home/arduino/daybreak-models/gemma-3-270m-it-Q4_0.gguf
+242M	/home/arduino/daybreak-models/gemma-3-270m-it-Q4_K_M.gguf
+279M	/home/arduino/daybreak-models/gemma-3-270m-it-Q8_0.gguf
+
+## storage-footprint
+110M	/home/arduino/llamacpp
+22M	/home/arduino/.cache
+14M	/home/arduino/.arduino-bricks
+1.4M	/home/arduino/ArduinoApps
+--- docker images
+(docker needs a password here - run by hand for image sizes)

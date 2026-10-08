@@ -1,0 +1,281 @@
+################ PASS 1  QAT baselines, full PAB  2026-10-07T14:17:14+00:00
+board quiet: 0.7% cpu, 3124 MB available
+######## T2 S0 Q2 2026-10-07T14:17:17+00:00 ########
+up on :8080 in 6.53s (pid 1689, rss 839508 kB)
+FAIL P/p01   29.0s ttft=13.422 
+FAIL P/p02   49.2s ttft=13.298 event 1: time '4' is not a single time; event 4: time '4' is not a single time
+FAIL P/p03   57.1s ttft=12.767 
+FAIL P/p04   51.8s ttft=13.734 event 0: place 'home' not in transcript; event 1: time 'tomorrow' is not a single time; ev
+FAIL P/p05   32.3s ttft=13.663 event 0: time '09:00' not spoken (heard ['09:30', '13:00']); event 1: place 'anywhere' not
+ok  P/p06   24.7s ttft=13.346 
+FAIL P/p07   55.2s ttft=13.463 event 0: time '08:00' not spoken (heard []); event 0: place 'Desk' not in transcript; even
+FAIL P/p08   56.3s ttft=13.712 
+FAIL P/p09   51.1s ttft=13.215 event 0: place 'undefined' not in transcript; event 1: time 'undefined' is not a single ti
+FAIL P/p10   31.8s ttft=14.182 event 0: time '6:00' not spoken (heard ['06:00', '07:30'])
+FAIL P/p11   54.4s ttft=12.651 event 0: time '2 at the main block' is not a single time; event 1: time '2 at the main blo
+FAIL P/p12   29.6s ttft=13.313 event 0: time '3' is not a single time; event 1: time 'filament' is not a single time
+FAIL P/p13   38.9s ttft=13.894 event 0: place 'undefined' not in transcript; event 1: place 'undefined' not in transcript
+ok  P/p14   32.2s ttft=13.503 
+FAIL P/p15   56.5s ttft=13.445 event 1: time '24-hour' is not a single time; event 2: time '24-hour' is not a single time
+ok  P/p16   51.0s ttft=12.949 
+FAIL P/p17   39.5s ttft=13.409 event 0: time '4 at MACE' is not a single time; event 1: time '4 at MACE' is not a single 
+FAIL P/p18   30.2s ttft=13.431 event 1: time '9' is not a single time
+FAIL P/p19   55.7s ttft=13.483 event 1: time '7:30 AM' not spoken (heard ['07:00']); event 1: place 'coffee' not in trans
+FAIL P/p20   57.9s ttft=13.583 event 0: time '10:00' not spoken (heard ['19:00', '22:00']); event 0: place 'park' not in 
+ok  A/a01   12.5s ttft=5.221 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a02    9.9s ttft=4.658 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a03   11.2s ttft=5.34 sentences=2 within_20.0s=1 (sense: grade by hand)
+ok  A/a04   11.0s ttft=4.829 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a05    7.8s ttft=4.534 sentences=2 within_20.0s=1 (sense: grade by hand)
+ok  A/a06   10.9s ttft=4.777 sentences=2 within_20.0s=1 (sense: grade by hand)
+ok  A/a07    9.6s ttft=4.619 sentences=2 within_20.0s=1 (sense: grade by hand)
+ok  A/a08   10.9s ttft=4.374 sentences=2 within_20.0s=1 (sense: grade by hand)
+ok  A/a09   12.3s ttft=4.633 sentences=2 within_20.0s=1 (sense: grade by hand)
+ok  A/a10   10.4s ttft=4.895 sentences=2 within_20.0s=1 (sense: grade by hand)
+ok  B/p01   22.1s ttft=12.63 words=31 missing=[] extra=[] invented_place=-
+FAIL B/p02   24.5s ttft=12.341 words=34 missing=[] extra=['16:00'] invented_place=-
+ok  B/p03   17.8s ttft=10.534 words=23 missing=[] extra=[] invented_place=-
+ok  B/p04   23.0s ttft=13.607 words=27 missing=[] extra=[] invented_place=-
+ok  B/p05   22.7s ttft=11.449 words=37 missing=[] extra=[] invented_place=-
+ok  B/p06   18.5s ttft=10.502 words=26 missing=[] extra=[] invented_place=-
+ok  B/p07   18.2s ttft=10.181 words=27 missing=[] extra=[] invented_place=-
+ok  B/p08   19.4s ttft=11.093 words=24 missing=[] extra=[] invented_place=-
+ok  B/p09   18.4s ttft=10.537 words=22 missing=[] extra=[] invented_place=-
+FAIL B/p10   21.8s ttft=12.295 words=28 missing=['06:00'] extra=['18:00'] invented_place=-
+
+S0 google_gemma-3-1b-it-qat-Q4_0 t4   
+  Task A: 10/10 pass, mean 10.7 s
+  Task B: 8/10 pass, mean 20.7 s
+  Task P: 3/20 pass, mean 44.2 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+stopped
+######## T2 S0 Q1 2026-10-07T14:37:23+00:00 ########
+up on :8080 in 5.99s (pid 9580, rss 357212 kB)
+FAIL P/p01   26.2s ttft=3.353 
+FAIL P/p02   17.5s ttft=1.408 event 0: time '10:00' not spoken (heard ['07:45', '18:00']); event 0: place '10:00' not in
+FAIL P/p03   12.6s ttft=1.249 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p04   12.2s ttft=1.328 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p05   12.1s ttft=1.301 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p06   20.0s ttft=1.354 event 0: time '12:00' not spoken (heard ['16:45']); event 1: time '12:00' not spoken (hear
+FAIL P/p07   12.6s ttft=1.302 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p08   12.2s ttft=1.331 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p09   11.8s ttft=3.645 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript
+FAIL P/p10   17.5s ttft=1.394 event 0: time '10:00' not spoken (heard ['06:00', '07:30']); event 0: place '10:00' not in
+FAIL P/p11   12.6s ttft=1.18 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p12   15.2s ttft=1.343 event 0: time '3' is not a single time; event 1: time '3' is not a single time; event 2: t
+FAIL P/p13   12.8s ttft=1.303 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p14   12.1s ttft=1.296 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p15   16.6s ttft=1.273 event 0: time '10:00' not spoken (heard ['06:15']); event 0: place '10:00' not in transcri
+FAIL P/p16   12.0s ttft=1.215 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p17   12.0s ttft=1.266 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p18   17.4s ttft=1.278 event 0: time '10:00' not spoken (heard ['13:00', '21:00']); event 0: place '10:00' not in
+FAIL P/p19   13.3s ttft=1.253 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+FAIL P/p20   13.2s ttft=1.275 event 0: time 'when' is not a single time; event 0: place 'where' not in transcript; event
+ok  A/a01    8.3s ttft=1.204 sentences=1 within_20.0s=1 (sense: grade by hand)
+FAIL A/a02    7.9s ttft=0.563 sentences=7 within_20.0s=1 (sense: grade by hand)
+ok  A/a03    7.9s ttft=0.676 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a04    7.8s ttft=0.654 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a05    7.8s ttft=0.556 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a06    7.8s ttft=0.642 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a07    7.9s ttft=0.568 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a08    7.7s ttft=0.533 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a09    7.9s ttft=0.569 sentences=1 within_20.0s=1 (sense: grade by hand)
+ok  A/a10    7.9s ttft=0.601 sentences=1 within_20.0s=1 (sense: grade by hand)
+FAIL B/p01    9.9s ttft=2.591 words=50 missing=['09:30'] extra=['10:30', '11:30'] invented_place=-
+ok  B/p02    8.6s ttft=1.113 words=30 missing=[] extra=[] invented_place=-
+FAIL B/p03    8.2s ttft=0.857 words=51 missing=[] extra=['10:10', '10:15', '10:20', '10:25'] invented_place=-
+FAIL B/p04    9.3s ttft=1.815 words=44 missing=[] extra=['23:00'] invented_place=-
+FAIL B/p05    8.5s ttft=1.014 words=20 missing=['09:30'] extra=[] invented_place=-
+FAIL B/p06    8.2s ttft=0.861 words=29 missing=['16:45'] extra=['17:00', '17:05', '17:07', '17:08'] invented_place=-
+ok  B/p07    8.2s ttft=0.863 words=30 missing=[] extra=[] invented_place=-
+FAIL B/p08    8.4s ttft=0.942 words=54 missing=['10:00'] extra=['10:30', '11:00', '11:30'] invented_place=-
+FAIL B/p09    8.7s ttft=0.863 words=39 missing=['19:30'] extra=['10:00', '10:30', '11:00', '11:30', '12:00'] invented_pl
+FAIL B/p10    9.0s ttft=1.15 words=31 missing=[] extra=['18:00'] invented_place=-
+
+S0 gemma-3-270m-qat-Q4_0 t4   
+  Task A: 9/10 pass, mean 7.9 s
+  Task B: 2/10 pass, mean 8.7 s
+  Task P: 0/20 pass, mean 14.6 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+server ignored SIGTERM for 10s — SIGKILL
+stopped
+=== T2 COMPLETE 2026-10-07T14:45:19+00:00 ===
+task rows: 400
+################ PASS 2  HH:MM grammar, Task P    2026-10-07T14:45:19+00:00
+board quiet: 0.2% cpu, 3108 MB available
+######## T2 S0g-P B1 2026-10-07T14:45:22+00:00 ########
+up on :8080 in 8.16s (pid 12849, rss 840576 kB)
+FAIL P/p01   29.5s ttft=13.109 
+FAIL P/p02   35.3s ttft=12.759 event 1: time '16:00' not spoken (heard ['07:45', '18:00'])
+FAIL P/p03   28.6s ttft=11.899 
+FAIL P/p04   28.4s ttft=12.47 
+FAIL P/p05   28.8s ttft=12.427 event 0: time '09:00' not spoken (heard ['09:30', '13:00'])
+FAIL P/p06   22.5s ttft=12.085 event 0: time '15:00' not spoken (heard ['16:45'])
+FAIL P/p07   48.4s ttft=11.796 event 0: time '08:00' not spoken (heard []); event 1: time '12:00' not spoken (heard []); 
+FAIL P/p08   50.0s ttft=12.955 
+FAIL P/p09   21.8s ttft=12.264 event 0: time '20:30' not spoken (heard ['19:30']); event 0: place 'Office' not in transcr
+FAIL P/p10   29.5s ttft=12.693 event 0: time '06:00' not spoken (heard ['06:00', '07:30'])
+FAIL P/p11   48.7s ttft=11.548 event 0: time '23:00' not spoken (heard ['14:00']); event 1: time '00:00' not spoken (hear
+FAIL P/p12   34.8s ttft=12.145 
+FAIL P/p13   36.3s ttft=12.685 event 2: time '19:00' not spoken (heard ['00:00', '08:45', '17:00'])
+FAIL P/p14   29.0s ttft=12.381 event 0: time '09:00' not spoken (heard ['18:00', '21:00']); event 0: place 'before grocer
+FAIL P/p15   50.4s ttft=12.171 event 0: time '06:15' not spoken (heard ['06:15']); event 1: time '06:15' not spoken (hear
+FAIL P/p16   48.5s ttft=11.74 event 0: time '08:30' not spoken (heard ['20:30']); event 1: time '08:30' not spoken (hear
+FAIL P/p17   36.0s ttft=12.242 event 0: time '06:00' not spoken (heard ['16:00']); event 0: place 'home' not in transcrip
+FAIL P/p18   28.4s ttft=12.25 event 1: time '20:00' not spoken (heard ['13:00', '21:00'])
+FAIL P/p19   28.3s ttft=12.071 
+FAIL P/p20   48.7s ttft=12.27 event 0: time '08:00' not spoken (heard ['19:00', '22:00']); event 0: place 'home' not in 
+
+S0g-P gemma-3-1b-it-Q4_0 t4  strict-time 
+  Task P: 0/20 pass, mean 35.6 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+server ignored SIGTERM for 10s — SIGKILL
+stopped
+######## T2 S0g-P Q2 2026-10-07T14:57:35+00:00 ########
+up on :8080 in 6.00s (pid 17746, rss 839516 kB)
+FAIL P/p01   30.0s ttft=13.571 
+FAIL P/p02   50.2s ttft=12.934 event 0: time '19:45' not spoken (heard ['07:45', '18:00']); event 1: time '14:00' not spo
+FAIL P/p03   54.1s ttft=12.417 
+FAIL P/p04   54.6s ttft=13.297 event 0: time '08:00' not spoken (heard ['11:00', '20:00']); event 0: place 'home' not in 
+FAIL P/p05   31.6s ttft=13.374 event 0: time '09:00' not spoken (heard ['09:30', '13:00']); event 1: place 'anywhere' not
+FAIL P/p06   25.1s ttft=13.145 event 0: time '03:00' not spoken (heard ['16:45'])
+FAIL P/p07   54.1s ttft=12.925 event 0: time '08:00' not spoken (heard []); event 0: place 'Desk' not in transcript; even
+FAIL P/p08   56.8s ttft=13.825 
+FAIL P/p09   56.8s ttft=13.286 event 0: time '20:30' not spoken (heard ['19:30']); event 0: place 'The office' not in tra
+FAIL P/p10   32.5s ttft=14.126 event 0: time '06:00' not spoken (heard ['06:00', '07:30'])
+FAIL P/p11   56.1s ttft=12.76 event 0: time '23:00' not spoken (heard ['14:00']); event 1: time '23:00' not spoken (hear
+FAIL P/p12   39.5s ttft=13.528 
+ok  P/p13   40.1s ttft=14.054 
+FAIL P/p14   58.4s ttft=13.631 event 0: time '20:00' not spoken (heard ['18:00', '21:00']); event 0: place 'before grocer
+FAIL P/p15   57.3s ttft=13.501 event 0: time '06:15' not spoken (heard ['06:15']); event 1: time '08:00' not spoken (hear
+FAIL P/p16   55.2s ttft=13.034 event 0: time '08:30' not spoken (heard ['20:30']); event 1: time '08:30' not spoken (hear
+FAIL P/p17   57.4s ttft=13.847 
+FAIL P/p18   31.2s ttft=13.41 event 1: time '19:00' not spoken (heard ['13:00', '21:00'])
+FAIL P/p19   51.0s ttft=12.78 
+FAIL P/p20   52.4s ttft=12.51 event 0: time '10:00' not spoken (heard ['19:00', '22:00']); event 0: place 'park' not in 
+
+S0g-P google_gemma-3-1b-it-qat-Q4_0 t4  strict-time 
+  Task P: 1/20 pass, mean 47.2 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+stopped
+######## T2 S0g-P A1 2026-10-07T15:13:26+00:00 ########
+up on :8080 in 5.44s (pid 24063, rss 357856 kB)
+FAIL P/p01    6.2s ttft=2.811 
+FAIL P/p02    9.1s ttft=3.161 event 0: time '20:00' not spoken (heard ['07:45', '18:00']); event 1: time '20:00' not spo
+FAIL P/p03    7.6s ttft=2.198 event 1: time '10:15' not spoken (heard ['10:00'])
+FAIL P/p04   14.6s ttft=3.34 event 0: place 'New York City' not in transcript; event 1: time '20:05' not spoken (heard 
+FAIL P/p05    7.5s ttft=2.252 event 0: time '08:00' not spoken (heard ['09:30', '13:00']); event 1: time '12:00' not spo
+FAIL P/p06   16.2s ttft=2.547 event 0: time '00:00' not spoken (heard ['16:45']); event 1: time '00:05' not spoken (hear
+FAIL P/p07   17.7s ttft=2.479 event 0: time '20:00' not spoken (heard []); event 0: place 'City Hall' not in transcript;
+FAIL P/p08   18.7s ttft=3.176 event 0: place 'City Hall' not in transcript; event 1: time '10:30' not spoken (heard ['10
+FAIL P/p09   11.6s ttft=2.785 event 0: time '07:30' not spoken (heard ['19:30']); event 1: time '07:30' not spoken (hear
+FAIL P/p10   11.6s ttft=2.646 event 0: time '00:00' not spoken (heard ['06:00', '07:30']); event 1: time '00:05' not spo
+FAIL P/p11   12.2s ttft=3.101 event 0: time '20:00' not spoken (heard ['14:00']); event 1: time '20:01' not spoken (hear
+FAIL P/p12    7.6s ttft=2.223 event 0: time '00:00' not spoken (heard ['15:00']); event 1: time '00:05' not spoken (hear
+FAIL P/p13   15.7s ttft=2.742 event 0: place '5:00' not in transcript; event 1: time '01:00' not spoken (heard ['00:00',
+FAIL P/p14    9.3s ttft=2.934 event 0: time '19:00' not spoken (heard ['18:00', '21:00']); event 0: place 'Dinner at 6 i
+FAIL P/p15    8.1s ttft=2.448 event 0: time '06:15' not spoken (heard ['06:15']); event 1: time '06:30' not spoken (hear
+FAIL P/p16   16.1s ttft=3.036 event 0: time '00:00' not spoken (heard ['20:30']); event 0: place '8:30 PM' not in transc
+FAIL P/p17    6.4s ttft=3.113 
+FAIL P/p18    8.0s ttft=2.721 event 0: time '14:00' not spoken (heard ['13:00', '21:00']); event 1: time '14:00' not spo
+FAIL P/p19   16.5s ttft=3.149 event 0: time '10:00' not spoken (heard ['07:00']); event 1: time '10:30' not spoken (hear
+FAIL P/p20   11.6s ttft=2.958 event 0: time '20:00' not spoken (heard ['19:00', '22:00']); event 0: place 'Silverhaven C
+
+S0g-P gemma-3-270m-it-Q4_0 t4  strict-time 
+  Task P: 0/20 pass, mean 11.6 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+server ignored SIGTERM for 10s — SIGKILL
+stopped
+######## T2 S0g-P Q1 2026-10-07T15:17:37+00:00 ########
+up on :8080 in 5.44s (pid 25852, rss 353092 kB)
+FAIL P/p01   18.7s ttft=3.324 event 0: time '10:30' not spoken (heard ['09:30', '12:00']); event 1: time '11:30' not spo
+FAIL P/p02   17.2s ttft=1.398 event 0: time '10:00' not spoken (heard ['07:45', '18:00']); event 0: place '10:00' not in
+FAIL P/p03   15.2s ttft=1.227 event 0: place '10:00' not in transcript; event 1: place '10:00' not in transcript; event 
+FAIL P/p04   15.1s ttft=1.322 event 0: place '8:00' not in transcript; event 1: place '8:00' not in transcript; event 2:
+FAIL P/p05   15.9s ttft=1.287 event 0: time '10:00' not spoken (heard ['09:30', '13:00']); event 0: place '10:00' not in
+FAIL P/p06   18.9s ttft=1.249 event 0: time '12:00' not spoken (heard ['16:45']); event 1: time '12:00' not spoken (hear
+FAIL P/p07   16.2s ttft=1.288 event 0: time '20:00' not spoken (heard []); event 0: place '20:00' not in transcript; eve
+FAIL P/p08   15.6s ttft=1.32 event 0: place '10:00' not in transcript; event 1: place '10:00' not in transcript; event 
+FAIL P/p09   12.7s ttft=3.522 event 0: time '20:00' not spoken (heard ['19:30']); event 0: place '20:00' not in transcri
+FAIL P/p10   16.6s ttft=1.36 event 0: time '10:00' not spoken (heard ['06:00', '07:30']); event 0: place '10:00' not in
+FAIL P/p11   15.7s ttft=1.177 event 0: time '20:00' not spoken (heard ['14:00']); event 0: place '20:00' not in transcri
+FAIL P/p12   17.8s ttft=1.357 event 0: time '10:00' not spoken (heard ['15:00']); event 0: place '10:00' not in transcri
+FAIL P/p13   15.9s ttft=1.346 event 0: time '20:00' not spoken (heard ['00:00', '08:45', '17:00']); event 0: place '20:0
+FAIL P/p14   15.9s ttft=1.297 event 0: time '20:00' not spoken (heard ['18:00', '21:00']); event 0: place '20:00' not in
+FAIL P/p15   16.4s ttft=1.266 event 0: time '10:00' not spoken (heard ['06:15']); event 0: place '10:00' not in transcri
+FAIL P/p16   15.7s ttft=1.213 event 0: time '20:00' not spoken (heard ['20:30']); event 0: place '20:00' not in transcri
+FAIL P/p17   14.8s ttft=1.262 event 0: time '20:00' not spoken (heard ['16:00']); event 1: time '20:00' not spoken (hear
+FAIL P/p18   17.1s ttft=1.288 event 0: time '10:00' not spoken (heard ['13:00', '21:00']); event 0: place '10:00' not in
+FAIL P/p19   14.9s ttft=1.253 event 0: time '20:00' not spoken (heard ['07:00']); event 1: time '20:00' not spoken (hear
+FAIL P/p20   16.5s ttft=1.379 event 0: time '20:00' not spoken (heard ['19:00', '22:00']); event 0: place '20:00' not in
+
+S0g-P gemma-3-270m-qat-Q4_0 t4  strict-time 
+  Task P: 0/20 pass, mean 16.1 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+stopped
+=== T2 COMPLETE 2026-10-07T15:23:06+00:00 ===
+task rows: 480
+################ PASS 3  Gemma sampler, Task B    2026-10-07T15:23:06+00:00
+board quiet: 0.1% cpu, 3123 MB available
+######## T2 S0s-B B1 2026-10-07T15:23:09+00:00 ########
+up on :8080 in 5.99s (pid 28158, rss 840576 kB)
+ok  B/p01   19.1s ttft=11.29 words=30 missing=[] extra=[] invented_place=-
+FAIL B/p02   19.9s ttft=10.994 words=27 missing=[] extra=['16:00'] invented_place=-
+ok  B/p03   18.3s ttft=9.506 words=35 missing=[] extra=[] invented_place=-
+ok  B/p04   22.3s ttft=12.275 words=34 missing=[] extra=[] invented_place=-
+ok  B/p05   20.2s ttft=10.341 words=31 missing=[] extra=[] invented_place=-
+FAIL B/p06   19.2s ttft=9.536 words=35 missing=['16:45'] extra=['16:30'] invented_place=-
+ok  B/p07   18.3s ttft=9.137 words=30 missing=[] extra=[] invented_place=-
+ok  B/p08   18.5s ttft=9.906 words=26 missing=[] extra=[] invented_place=-
+ok  B/p09   19.2s ttft=9.506 words=35 missing=[] extra=[] invented_place=-
+FAIL B/p10   18.6s ttft=10.857 words=33 missing=['06:00', '07:30'] extra=[] invented_place=-
+
+S0s-B gemma-3-1b-it-Q4_0 t4   gemma-sampling
+  Task B: 7/10 pass, mean 19.4 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+stopped
+######## T2 S0s-B Q2 2026-10-07T15:26:29+00:00 ########
+up on :8080 in 5.50s (pid 29623, rss 839516 kB)
+ok  B/p01   18.0s ttft=11.218 words=28 missing=[] extra=[] invented_place=-
+ok  B/p02   20.4s ttft=11.19 words=34 missing=[] extra=[] invented_place=-
+ok  B/p03   16.4s ttft=9.282 words=27 missing=[] extra=[] invented_place=-
+ok  B/p04   21.5s ttft=11.919 words=37 missing=[] extra=[] invented_place=-
+ok  B/p05   16.9s ttft=10.127 words=26 missing=[] extra=[] invented_place=-
+ok  B/p06   16.3s ttft=9.254 words=23 missing=[] extra=[] invented_place=-
+ok  B/p07   14.5s ttft=8.883 words=22 missing=[] extra=[] invented_place=-
+ok  B/p08   16.0s ttft=9.686 words=21 missing=[] extra=[] invented_place=-
+ok  B/p09   15.4s ttft=9.348 words=20 missing=[] extra=[] invented_place=-
+ok  B/p10   18.5s ttft=10.67 words=29 missing=[] extra=[] invented_place=-
+
+S0s-B google_gemma-3-1b-it-qat-Q4_0 t4   gemma-sampling
+  Task B: 10/10 pass, mean 17.4 s
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_tasks.csv
+  -> /home/arduino/ArduinoApps/daybreak/data/bench/llm_raw.jsonl
+stopped
+=== T2 COMPLETE 2026-10-07T15:29:30+00:00 ===
+task rows: 500
+################ SELECT_RUN_COMPLETE 2026-10-07T15:29:30+00:00
+      1 ,
+     40 S0,gemma-3-1b-it-Q4_0
+     40 S0,gemma-3-270m-it-Q4_0
+     40 S0,gemma-3-270m-qat-Q4_0
+     40 S0,google_gemma-3-1b-it-qat-Q4_0
+     20 S0g-P,gemma-3-1b-it-Q4_0
+     20 S0g-P,gemma-3-270m-it-Q4_0
+     20 S0g-P,gemma-3-270m-qat-Q4_0
+     20 S0g-P,google_gemma-3-1b-it-qat-Q4_0
+     10 S0s-B,gemma-3-1b-it-Q4_0
+     10 S0s-B,google_gemma-3-1b-it-qat-Q4_0
+     40 S2,gemma-3-1b-it-Q4_0
+     40 S2,gemma-3-270m-it-Q4_0
+     40 S3,gemma-3-1b-it-Q4_0
+     40 S3,gemma-3-270m-it-Q4_0
+     40 S4,gemma-3-1b-it-Q4_0
+     40 S4,gemma-3-270m-it-Q4_0
