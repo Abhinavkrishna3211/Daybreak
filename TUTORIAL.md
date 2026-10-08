@@ -440,6 +440,13 @@ the budget from a live run.)
 capture device emits a handful of full-scale samples about 12 ms after it opens, which reads as
 clipping in the summary and scores as a wake if you leave it in.
 
+Piper's voice files aren't in this repo (`.gitignore` excludes `*.onnx`/`*.onnx.json` — they're a few
+tens of MB each) and `piper-tts` doesn't fetch one on its own. Download the `.onnx` and its matching
+`.onnx.json` from the [rhasspy/piper-voices](https://huggingface.co/rhasspy/piper-voices) model repo
+on Hugging Face (e.g. `en/en_GB/northern_english_male/medium/`), put both files in
+`~/ArduinoApps/daybreak/voices/` on the board, and point `config.json`'s `voice.piper_voice` at
+`/app/voices/<name>.onnx` — see the bind-mount note just below for why it has to be under `/app`.
+
 ✅ **Full end-to-end verified live on the board (2026-10-08):** said "Hey Jarvis" at the running app,
 watched it detect, record, transcribe with whisper, synthesize with Piper and play back over the
 speaker — all four stages, no hand-feeding. Found one real bug doing this: `config.json`'s
