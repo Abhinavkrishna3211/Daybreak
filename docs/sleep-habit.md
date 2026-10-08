@@ -60,6 +60,26 @@ Plain numbers, no single magic "sleep score". The dashboard shows a 14-day chart
 - **Your data stays on the box.** `state/habit.jsonl` holds one row per day: date, phone_down, wake, out_the_door_s, daylight_s, gate_result, session_played.
 
 ## Why this design (research as motivation, not proof)
-- Regular sleep timing is associated with better outcomes in large observational data (about 61,000 people, UK Biobank).
-- Morning outdoor light helps anchor the body clock (small camping study; large UK Biobank light-sensor analyses, correlational).
+- **Regular sleep timing, not just duration:** Windred DP, Burns AC, Lane JM, et al. "Sleep regularity is a stronger
+  predictor of mortality risk than sleep duration: A prospective cohort study." *Sleep* 2024;47(1). Over 60,000 UK
+  Biobank participants, accelerometer-measured - the most regular quintile had 20-48% lower all-cause mortality than
+  the least regular, regularity beating duration as a predictor. Observational, not causal, but it's the reason this
+  feature tracks *regularity* (streak, standard deviation of wake/phone-down time) rather than chasing a sleep-hours number.
+- **Morning light anchors the body clock:** Stothard ER, McHill AW, Depner CM, et al. "Circadian Entrainment to the
+  Natural Light-Dark Cycle across Seasons and the Weekend." *Curr Biol* 2017;27(4):508-13 - a week of camping (natural
+  light only) shifted participants' internal clocks roughly 2 hours earlier, aligning sleep timing with sunrise/sunset.
+  Cortisol pathway: Jung CM, Khalsa SB, Scheer FA, et al. "Acute effects of bright light exposure on cortisol levels."
+  *J Biol Rhythms* 2010;25(3):208-16 - morning bright light exposure produces an acute cortisol rise, part of why the
+  wake-time/daylight-gate design (not just "wake up," but "get outside") is the thing Daybreak actually measures.
+- **Evening screens delay the clock, not just "ruin sleep":** Chang AM, Aeschbach D, Duffy JF, Czeisler CA. "Evening
+  use of light-emitting eReaders negatively affects sleep, circadian timing, and next-morning alertness." *PNAS*
+  2015;112(4):1232-7 - reading on a light-emitting device before bed suppressed melatonin, delayed its onset, and
+  pushed circadian phase later versus a printed book, in the same subjects. This is the reasoning behind "phone-down
+  time" as the thing Daybreak measures, not "screen time" generally - it's specifically about the device going into
+  the box, light and all, before the target time.
 - A fixed wake time is the most common behavioural recommendation for a regular schedule, and it's the one thing the box can enforce kindly.
+- **Where Huberman fits:** Andrew Huberman's Huberman Lab podcast (episode "Toolkit for Sleep," hubermanlab.com) is
+  what popularized this exact cluster of ideas - morning light, a fixed wake time, light-limiting before bed - as a
+  practical toolkit rather than scattered findings, and is the reason Abhi built this feature at all. The citations
+  above are the primary sources behind that toolkit, included because Daybreak is not affiliated with him and makes
+  no claim he endorses it (same disclaimer as the NSDR sessions, [jarvis.md](jarvis.md)).
