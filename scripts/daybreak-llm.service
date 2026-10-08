@@ -1,0 +1,53 @@
+# The language model server, as a systemd *user* unit.
+#
+# Install (no root needed, and `Linger=yes` is already set on this board, so it starts at boot
+# without anyone logging in):
+#
+#   mkdir -p ~/.config/systemd/user
+#   cp scripts/daybreak-llm.service ~/.config/systemd/user/
+#   systemctl --user daemon-reload
+#   systemctl --user enable --now daybreak-llm
+#
+#   systemctl --user status daybreak-llm      # is it up
+#   journalctl --user -u daybreak-llm -f      # what it is saying
+#
+# Why a unit and not the app: App Lab runs the app inside a container with no access to the
+# docker socket, so the app cannot start or supervise a process on the Linux host - it can only
+# connect to one. And `scripts/bench/serve.sh` backgrounds the server inside whichever shell
+# started it, which is fine for a bench run and wrong for a box you leave overnight: the server
+# was found dead after an app restart, with no OOM kill in the log and nothing in the test suite
+# that touches it, so the cause was never pinned down. That is the argument for supervision
+# rather than against it - `Restart=always` brings it back whatever took it down, and the app
+# reports `llm: false` on the dashboard for the few seconds in between.
+[Unit]
+Description=Daybreak language model server
+After=network-online.target
+
+[Service]
+# llama-server loads its shared libraries from beside the binary, not from the system path.
+Environment=LD_LIBRARY_PATH=%h/llamacpp/cpu/llama-b11449
+
+# The settings are the decision of record in docs/measurements.md T2: Gemma 3 1B QAT Q4_0 at
+# 3 threads (4 threads browns out the SoC core rail under full load, T6) and a 2048-token context.
+#
+# --host 0.0.0.0 is deliberate and is the address every T1/T2/T6 number was measured through.
+# The app is on a docker bridge, so from inside it 127.0.0.1 is the container and a server bound
+# to loopback is unreachable - the app would fall back to the rules for every briefing and never
+# say why. The cost is an unauthenticated endpoint on the LAN; narrow it to the bridge gateway
+# alone if that matters more than keeping the bench scripts pointed where they measured.
+#
+# Keep the model path in step with `llm_gguf` in config.json. They are read by different things -
+# this by systemd, that by python/llm.py - so nothing checks that they agree.
+ExecStart=%h/llamacpp/cpu/llama-b11449/llama-server \
+    -m %h/daybreak-models/google_gemma-3-1b-it-qat-Q4_0.gguf \
+    --host 0.0.0.0 --port 8080 \
+    -t 3 -c 2048 --no-webui --cache-reuse 256
+
+Restart=always
+RestartSec=5
+# Loading the model takes about 8 s from warm and longer from cold, and it does not answer /health
+# until it is done. Without this, systemd's default would call a slow cold start a failed one.
+TimeoutStartSec=180
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,15 @@
+[Unit]
+Description=Force the UNO Q USB-C port to host mode so USB peripherals enumerate on VIN power
+After=local-fs.target systemd-udevd.service
+Before=docker.service
+Wants=local-fs.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+# The script retries for up to ~180 s because the Type-C data role settles late.
+TimeoutStartSec=240
+ExecStart=/usr/local/sbin/usb-host-mode.sh
+
+[Install]
+WantedBy=multi-user.target
