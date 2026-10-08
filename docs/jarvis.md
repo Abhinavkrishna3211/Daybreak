@@ -12,8 +12,8 @@ Facts (times, places, to-dos, minutes left) always come from Daybreak's own data
 
 | You say (examples) | Intent | What Jarvis does | Engine |
 |---|---|---|---|
-| "I'm not sleepy", "I can't sleep", "not able to sleep", "my mind is racing", "I'm restless" | `sleep_help` | offers once: "Shall I take you through a short rest session, sir?" → yes → **NSDR session** (or wind-down if you say "just something short") | rules + pre-rendered audio |
-| "guided meditation", "help me relax", "I'm stressed", "calm me down", "breathing exercise" | `meditate` | asks "Short or long?" if unclear → plays the matching session | rules + pre-rendered audio |
+| "I'm not sleepy", "I can't sleep", "not able to sleep", "my mind is racing", "I'm restless" | `sleep_help` | plays the NSDR session right away (long by default, short if you said "something short") - no follow-up question, the length comes from words already in that one utterance | rules + pre-rendered audio |
+| "guided meditation", "help me relax", "I'm stressed", "calm me down", "breathing exercise" | `meditate` | plays the matching session immediately from words in the utterance ("breath" → breathing reset, "calm"/"stress" → calm-down, during the morning gate → outdoor meditation, otherwise calm-down) - no "short or long?" turn, that would need the same pending-confirm plumbing `alarm_set` uses and isn't built | rules + pre-rendered audio |
 | "stop", "that's enough", "I'm fine now" during a session | `stop` | fades the audio out and goes quiet | rules |
 | "tomorrow I have…", "plan for tomorrow…" | `plan` | saves a checked plan and repeats it back | rules → validator (no model: see measurements.md T2) |
 | "what's my plan today", "what's next", "go through my day", "what's at 2" | `plan_query` | reads today's plan, the next event, or the event at that time | data |
@@ -24,7 +24,7 @@ Facts (times, places, to-dos, minutes left) always come from Daybreak's own data
 | "when's my alarm", "what time will you wake me" | `alarm_query` | "6:30 AM, sir. Sunrise is at 6:12." | data |
 | "move my alarm to 7", "change the alarm" | `alarm_set` | same as above, replaces the old time | rules |
 | "skip tomorrow's alarm", "no alarm tomorrow" | `alarm_skip` | asks to confirm with a spoken "yes" (it's the whole point of the box), skips one day only, and says the next alarm | rules |
-| "sleep time", "good night", "lock it", "I'm going to sleep" | `sleep_lock` | checks phone-in-bay + lid closed → locks until the morning gate, confirms the alarm; at night, "open the box" gets: "The button on the side is there if you need it, sir." | rules + MCU |
+| "sleep time", "good night", "lock it", "I'm going to sleep" | `sleep_time` (action `lock_for_night`) | checks phone-in-bay + lid closed → locks until the morning gate, confirms the alarm; at night, "open the box" gets: "The button on the side is there if you need it, sir." | rules + MCU |
 | "how long left", "am I done" | `status` | minutes of daylight left / what's missing (steps, real daylight) | gate |
 | "what time is it", "when is sunrise" | `clock` | time, and today's sunrise (calculated offline from the location in config) | local calc |
 | "open the box", "give me my phone" | `unlock` | politely declines while locked and points to the override button for emergencies | gate |
