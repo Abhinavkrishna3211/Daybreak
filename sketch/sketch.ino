@@ -279,11 +279,11 @@ void setup() {
   bh1750Ok = HAS_LIGHT_UV && bh1750Begin();
   lastHeartbeat = millis();
 
-  // rtc_get: no call-with-reply in this Bridge, so report what the RTC knows once at boot -
-  // the one moment Linux actually needs it (to set its own clock before NTP has had a chance).
   Wire2.beginTransmission(DS3231_ADDR);
   rtcOk = (Wire2.endTransmission() == 0);
-  if (rtcOk) Bridge.notify("rtc", rtcRead());
+  // rtc_get: no call-with-reply in this Bridge, so the "rtc" notify is sent periodically from
+  // loop() below instead of once here - a one-shot notify in setup() fires before the Python
+  // container's Bridge handlers exist (MCU boots before Linux does), so it was always lost.
 }
 
 void loop() {
@@ -313,7 +313,7 @@ void loop() {
   static unsigned long lastReport = 0;
   if (now - lastReport >= 1000) {
     lastReport = now;
-    if (rtcOk) rtcNowUnix = rtcRead();
+    if (rtcOk) { rtcNowUnix = rtcRead(); Bridge.notify("rtc", rtcNowUnix); }
     float lux, als, uvs;
     readLight(lux, als, uvs);
     float fl = flickerRatio();

@@ -129,14 +129,22 @@ def on_lid(v):
 
 
 _SANE_EPOCH = 1735689600  # 2025-01-01 - below this, a clock hasn't been set by anything yet
+_rtc_synced = False       # only act on the first "rtc" report after each boot/restart
+_rtc_push_pending = False  # set here, actually sent from loop() - Bridge.call() must not be
 
 def on_rtc(unixtime):
-    """MCU reports what the DS3231 knows, once at boot (task 8). If our own clock already
-    looks synced (systemd-timesyncd got to it over Wi-Fi), push it to the RTC. Otherwise take
-    the MCU's time instead, so logs/alarm aren't stamped with 1970 until Wi-Fi shows up."""
+    """called from this notification handler's own thread, or its response deadlocks the Bridge
+    read loop (it's waiting on itself). The MCU sends "rtc" once a second (a one-shot at boot
+    races Python's own startup, so it's always missed otherwise). If our own clock already looks
+    synced (systemd-timesyncd got to it over Wi-Fi), push it to the RTC. Otherwise take the MCU's
+    time instead, so logs/alarm aren't stamped with 1970 until Wi-Fi shows up."""
+    global _rtc_synced, _rtc_push_pending
+    if _rtc_synced:
+        return
+    _rtc_synced = True
     unixtime = int(unixtime)
     if time.time() > _SANE_EPOCH:
-        Bridge.call("rtc_set", int(time.time()))
+        _rtc_push_pending = True
     elif unixtime > _SANE_EPOCH:
         os.system(f"date -s @{unixtime} > /dev/null 2>&1")
 
@@ -467,11 +475,14 @@ weekly_review_fired: dt.date | None = None
 
 
 def loop():
-    global last_beat, fired_today, nudge60_fired, nudge15_fired, weekly_review_fired
+    global last_beat, fired_today, nudge60_fired, nudge15_fired, weekly_review_fired, _rtc_push_pending
     now = time.time()
     if now - last_beat > 5:
         Bridge.call("heartbeat")
         last_beat = now
+    if _rtc_push_pending:
+        _rtc_push_pending = False
+        Bridge.call("rtc_set", int(time.time()))
     # alarm.json, not CONFIG - that is what every alarm-setting voice command actually writes
     # (alarm_set, wake_shift below), and CONFIG's value is only ever the first-boot default.
     alarm_time = alarm.load(DATA, CONFIG.get("alarm", "06:30"))["time"]
