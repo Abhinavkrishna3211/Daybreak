@@ -130,6 +130,8 @@ const int PIN_FLICKER  = A0;  // phototransistor + 10k to GND (optional)
 const bool HAS_FLICKER = false;  // set true once the phototransistor is fitted
 const int PIN_UV       = A2;  // GUVA-S12SD analog output
 const bool HAS_LIGHT_UV = false;  // BH1750 + GUVA-S12SD arrive this weekend - set true once fitted
+const int PIN_PHONE    = 6;   // bay microswitch, closes to GND when the phone is in, INPUT_PULLUP
+const int PIN_LID      = 7;   // lid reed switch, closes to GND when the lid is shut, INPUT_PULLUP
 
 // ---------------- safety timing ----------------
 const unsigned long WATCHDOG_MS = 30UL * 1000;
@@ -152,6 +154,7 @@ bool rtcOk = false;         // false until the DS3231 answers on the bus
 uint32_t rtcNowUnix = 0;    // refreshed once a second in loop() when rtcOk
 
 long steps = 0;
+bool phoneIn = false, lidShut = false;  // task 5/7: bay microswitch, lid reed switch
 
 // ---------------- latch ----------------
 void setLock(bool on) {
@@ -231,6 +234,33 @@ void updateSteps() {
   if (lastStepAt > 0 && now - lastStepAt > 1500) { steadyGaitMs = 0; }  // gait broke off
 }
 
+// Phone bay + lid (task 5/7): both switches are to GND when closed, so LOW = phone in / lid
+// shut. Debounced like any mechanical switch (50 ms settle), and only notified on a real
+// change - Linux tracks the last value it heard, so a resend on every tick would be no-ops
+// but a changed value arriving late (debounce) would still be the thing woken up on.
+void checkPhoneLid() {
+  const unsigned long DEBOUNCE_MS = 50;
+  static bool lastPhoneRaw = HIGH, phoneChanging = false;
+  static unsigned long phoneChangedAt = 0;
+  bool phoneRaw = digitalRead(PIN_PHONE);
+  if (phoneRaw != lastPhoneRaw) { lastPhoneRaw = phoneRaw; phoneChangedAt = millis(); phoneChanging = true; }
+  if (phoneChanging && millis() - phoneChangedAt > DEBOUNCE_MS) {
+    phoneChanging = false;
+    bool phoneNow = (phoneRaw == LOW);
+    if (phoneNow != phoneIn) { phoneIn = phoneNow; Bridge.notify("phone", phoneIn ? 1 : 0); }
+  }
+
+  static bool lastLidRaw = HIGH, lidChanging = false;
+  static unsigned long lidChangedAt = 0;
+  bool lidRaw = digitalRead(PIN_LID);
+  if (lidRaw != lastLidRaw) { lastLidRaw = lidRaw; lidChangedAt = millis(); lidChanging = true; }
+  if (lidChanging && millis() - lidChangedAt > DEBOUNCE_MS) {
+    lidChanging = false;
+    bool lidNow = (lidRaw == LOW);
+    if (lidNow != lidShut) { lidShut = lidNow; Bridge.notify("lid", lidShut ? 1 : 0); }
+  }
+}
+
 // Goertzel at 100 Hz over 200 samples @ 2 kHz (100 ms). Returns AC/DC ratio 0..1.
 float flickerRatio() {
   if (!HAS_FLICKER) return -1.0f;
@@ -265,6 +295,8 @@ void setup() {
   pinMode(PIN_BUZZER, OUTPUT);   digitalWrite(PIN_BUZZER, LOW);
   pinMode(PIN_OVERRIDE, INPUT_PULLUP);
   pinMode(PIN_TALK, INPUT_PULLUP);
+  pinMode(PIN_PHONE, INPUT_PULLUP);
+  pinMode(PIN_LID, INPUT_PULLUP);
 
   Bridge.begin();
   Bridge.provide_safe("heartbeat", hHeartbeat);
@@ -289,6 +321,7 @@ void setup() {
 void loop() {
   unsigned long now = millis();
   updateSteps();
+  checkPhoneLid();
 
   // --- safety, always first ---
   if (digitalRead(PIN_OVERRIDE) == LOW && locked) {
