@@ -137,7 +137,7 @@ const int PIN_TALK     = 4;   // button to GND, INPUT_PULLUP
 const int PIN_FLICKER  = A0;  // phototransistor + 10k to GND (optional)
 const bool HAS_FLICKER = false;  // set true once the phototransistor is fitted
 const int PIN_UV       = A2;  // GUVA-S12SD analog output
-const bool HAS_LIGHT_UV = false;  // BH1750 + GUVA-S12SD arrive this weekend - set true once fitted
+const bool HAS_LIGHT_UV = true;   // BH1750 + GUVA-S12SD wired and reading live
 const int PIN_PHONE    = 6;   // bay microswitch, closes to GND when the phone is in, INPUT_PULLUP
 const int PIN_LID      = 7;   // lid reed switch, closes to GND when the lid is shut, INPUT_PULLUP
 

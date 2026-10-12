@@ -1536,6 +1536,6 @@ Flags for Abhi, resolved or still open:
 - `docs/architecture.md`'s night-lock section still describes a holding electromagnet; the actual
   mechanism (per Abhi, this session) is a DRV8833-driven backdrivable rolling shutter — fails open
   the same way, but the doc text is now wrong and needs an edit before task 7's hardware wiring.
-- Hardware in hand but not yet wired into any sketch: DS3231 RTC (0x68), BH1750 lux (0x23/0x5C),
-  GUVA-S12SD analog UV, a generic MPU6050 (use 0x69/AD0-high to avoid the DS3231 clash), and a
-  DRV8833 motor driver for the lock. None of this is code yet — tasks 6/7/8.
+- DS3231 RTC (0x68), BH1750 lux (0x23/0x5C), GUVA-S12SD analog UV, a generic MPU6050
+  (0x69/AD0-high to avoid the DS3231 clash), and a DRV8833 motor driver for the lock are all now
+  wired and verified live on the board — tasks 6/7/8.

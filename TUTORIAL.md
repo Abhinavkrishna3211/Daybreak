@@ -14,11 +14,11 @@ Each step is marked:
 | Part | Why | Approx. ₹ | Status |
 |---|---|---|---|
 | Arduino UNO Q **4 GB** (2 GB works with a smaller model) | Linux side: speech, Gemma, voice. STM32 side: sensors, latch, alarm | — | ✅ have |
-| BH1750 ambient light sensor + GUVA-S12SD UV sensor | the daylight test | 450–700 | ⏳ arriving, code ready (`HAS_LIGHT_UV` flag off until fitted) |
+| BH1750 ambient light sensor + GUVA-S12SD UV sensor | the daylight test | 450–700 | ✅ have, wired, verified live |
 | MPU6050 / GY-521 (no Qwiic cable, so this is the permanent motion sensor, not a fallback) | counts your steps and checks you're really walking | ~150 | ✅ have, wired, verified live |
 | Phototransistor TEPT5700 + 10 kΩ (optional) | detects 100 Hz flicker from indoor lights | 50 | ⏳ |
-| 2x N20 gear motor + 3D-printed rolling shutter | lid latch that rolls over the phone, **opens when power is lost** (backdrivable) | 250–400 | ⏳ wired?, code ready |
-| DRV8833 dual motor driver | drives the two lock motors | 50 | ⏳ wired?, code ready |
+| 2x N20 gear motor + 3D-printed rolling shutter | lid latch that rolls over the phone, **opens when power is lost** (backdrivable) | 250–400 | ✅ have, wired, verified live |
+| DRV8833 dual motor driver | drives the two lock motors | 50 | ✅ have, wired, verified live |
 | Active 5 V buzzer | alarm, run by the MCU alone | 30 | ⏳ |
 | DS3231 RTC module + coin cell | keeps the alarm on time through power cuts with no internet | 150–250 | ✅ have, wired, verified live (chip answers correctly after a real board power cycle) |
 | 2 large push buttons | override and talk | 60 | ⏳ |
