@@ -14,12 +14,11 @@ Each step is marked:
 | Part | Why | Approx. ₹ | Status |
 |---|---|---|---|
 | Arduino UNO Q **4 GB** (2 GB works with a smaller model) | Linux side: speech, Gemma, voice. STM32 side: sensors, latch, alarm | — | ✅ have |
-| LTR390 UV + ambient light sensor (Qwiic/STEMMA) | the daylight test | 450–700 | ⏳ |
-| Arduino Modulino Movement (LSM6DSOX) | counts your steps and checks you're really walking | 600–1,200 | ⏳ |
-| MPU6050 / GY-521 (fallback) | use only if the Modulino isn't available; wire SDA/SCL/3V3/GND | ~150 | ⏳ |
+| BH1750 ambient light sensor + GUVA-S12SD UV sensor | the daylight test | 450–700 | ⏳ arriving, code ready (`HAS_LIGHT_UV` flag off until fitted) |
+| MPU6050 / GY-521 (no Qwiic cable, so this is the permanent motion sensor, not a fallback) | counts your steps and checks you're really walking | ~150 | ✅ have, wired, verified live |
 | Phototransistor TEPT5700 + 10 kΩ (optional) | detects 100 Hz flicker from indoor lights | 50 | ⏳ |
-| 5 V holding electromagnet (2–3 kg) + steel plate | lid latch that **opens when power is lost** | 250–400 | ⏳ |
-| Logic-level MOSFET (AO3400 / IRLZ44N) + 1N4007 diode | drives the magnet | 50 | ⏳ |
+| 2x N20 gear motor + 3D-printed rolling shutter | lid latch that rolls over the phone, **opens when power is lost** (backdrivable) | 250–400 | ⏳ wired?, code ready |
+| DRV8833 dual motor driver | drives the two lock motors | 50 | ⏳ wired?, code ready |
 | Active 5 V buzzer | alarm, run by the MCU alone | 30 | ⏳ |
 | DS3231 RTC module + coin cell | keeps the alarm on time through power cuts with no internet | 150–250 | ✅ have, wired, verified live (chip answers correctly after a real board power cycle) |
 | 2 large push buttons | override and talk | 60 | ⏳ |

@@ -105,7 +105,7 @@ already there to fall back on.
 | MPU6050 (GY-521), **primary** (you have one) | steps + walking check, with our own step detector; discontinued chip, many clone modules | 150 |
 | Arduino Modulino Movement (LSM6DSOX, Qwiic), optional upgrade | same, with a hardware pedometer instead of our own detector | 600 to 1,200 |
 | Phototransistor (for example TEPT5700) + resistor (optional) | flicker | 50 |
-| 4× micro gear motor + rolling-shutter mechanism, backdrivable | fail-open night lock: pulls the shutter up to lock, down to unlock | — (you have these) |
+| 2× N20 gear motor + rolling-shutter mechanism, backdrivable | fail-open night lock: pulls the shutter up to lock, down to unlock | — (you have these) |
 | DRV8833 dual motor driver | drives the lock motor (you have one) | 60 to 100 |
 | Active buzzer 5 V | alarm | 30 |
 | DS3231 RTC module + CR2032 (I²C 0x68) | keeps the right time through power cuts with no internet, so the alarm still rings on time | 150 to 250 |

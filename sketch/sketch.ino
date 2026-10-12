@@ -2,8 +2,9 @@
 // Owns everything that must keep working if Linux doesn't: alarm buzzer,
 // latch, override button, watchdog, max-lock timer, and real-time sensing.
 //
-// Latch = 5 V holding electromagnet via logic MOSFET (with flyback diode).
-// Magnet OFF = lid free, so power loss always opens the box (fail-open).
+// Latch = 2x N20 gear motor via a DRV8833 driver, rolling a 3D-printed shutter over the phone.
+// Backdrivable and only driven briefly to move it, never held energized, so power loss
+// always leaves the shutter free to come open (fail-open).
 
 #include <Arduino_RouterBridge.h>
 #include <Wire.h>
@@ -122,7 +123,14 @@ uint32_t rtcRead() {
 }
 
 // ---------------- pins (edit to match your wiring) ----------------
-const int PIN_MAGNET   = 3;   // MOSFET gate
+// Lock = 2x N20 gear motor via one DRV8833 driver, rolling a 3D-printed shutter over the phone -
+// not an electromagnet. Backdrivable, so it's only driven for LOCK_DRIVE_MS to move the shutter,
+// then both channels go LOW (coast) rather than held energized.
+const int PIN_MOTOR_A1 = 8;   // DRV8833 AIN1 (motor 1)
+const int PIN_MOTOR_A2 = 9;   // DRV8833 AIN2 (motor 1)
+const int PIN_MOTOR_B1 = 10;  // DRV8833 BIN1 (motor 2)
+const int PIN_MOTOR_B2 = 11;  // DRV8833 BIN2 (motor 2)
+const unsigned long LOCK_DRIVE_MS = 700;  // CALIBRATE on the bench: time for the shutter to fully travel one way
 const int PIN_BUZZER   = 5;   // active buzzer
 const int PIN_OVERRIDE = 2;   // button to GND, INPUT_PULLUP
 const int PIN_TALK     = 4;   // button to GND, INPUT_PULLUP
@@ -157,9 +165,22 @@ long steps = 0;
 bool phoneIn = false, lidShut = false;  // task 5/7: bay microswitch, lid reed switch
 
 // ---------------- latch ----------------
+unsigned long motorStopAt = 0;
+bool motorRunning = false;
+
+void stopMotors() {
+  digitalWrite(PIN_MOTOR_A1, LOW); digitalWrite(PIN_MOTOR_A2, LOW);
+  digitalWrite(PIN_MOTOR_B1, LOW); digitalWrite(PIN_MOTOR_B2, LOW);
+  motorRunning = false;
+}
+
 void setLock(bool on) {
+  // CALIBRATE: swap the HIGH/LOW pair below if the shutter rolls the wrong way.
   locked = on;
-  digitalWrite(PIN_MAGNET, on ? HIGH : LOW);
+  digitalWrite(PIN_MOTOR_A1, on ? HIGH : LOW); digitalWrite(PIN_MOTOR_A2, on ? LOW : HIGH);
+  digitalWrite(PIN_MOTOR_B1, on ? HIGH : LOW); digitalWrite(PIN_MOTOR_B2, on ? LOW : HIGH);
+  motorStopAt = millis() + LOCK_DRIVE_MS;
+  motorRunning = true;
   if (on) lockedAt = millis();
 }
 
@@ -291,7 +312,9 @@ void readLight(float &lux, float &als, float &uvs) {
 }
 
 void setup() {
-  pinMode(PIN_MAGNET, OUTPUT);   digitalWrite(PIN_MAGNET, LOW);   // boot unlocked
+  pinMode(PIN_MOTOR_A1, OUTPUT); pinMode(PIN_MOTOR_A2, OUTPUT);
+  pinMode(PIN_MOTOR_B1, OUTPUT); pinMode(PIN_MOTOR_B2, OUTPUT);
+  stopMotors();   // boot unlocked, coasting
   pinMode(PIN_BUZZER, OUTPUT);   digitalWrite(PIN_BUZZER, LOW);
   pinMode(PIN_OVERRIDE, INPUT_PULLUP);
   pinMode(PIN_TALK, INPUT_PULLUP);
@@ -322,6 +345,9 @@ void loop() {
   unsigned long now = millis();
   updateSteps();
   checkPhoneLid();
+
+  // --- stop driving the lock motors once they've had time to move the shutter ---
+  if (motorRunning && (long)(now - motorStopAt) >= 0) stopMotors();
 
   // --- safety, always first ---
   if (digitalRead(PIN_OVERRIDE) == LOW && locked) {
