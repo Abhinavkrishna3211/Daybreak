@@ -143,6 +143,7 @@ def on_rtc(unixtime):
         return
     _rtc_synced = True
     unixtime = int(unixtime)
+    print(f"[rtc] chip answered with {unixtime} ({time.ctime(unixtime)})")
     if time.time() > _SANE_EPOCH:
         _rtc_push_pending = True
     elif unixtime > _SANE_EPOCH:
