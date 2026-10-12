@@ -81,6 +81,17 @@ def test_real_daylight_still_passes_the_plausibility_bounds():
     assert Sample(steps=0, lux=0, uvs=0, als=0).plausible      # a dark room is a real reading
 
 
+def test_late_daylight_after_window_requires_walking_again():
+    """Racking up steps, then waiting out the 120 s door window indoors, must not let a much
+    later daylight reading count - that's the "walk now, fake daylight hours later" cheat the
+    door window exists to close."""
+    g = demo_gate()
+    run(g, ROOM, 150, steps=120)                      # walks early, then sits past the window indoors
+    assert g.state == State.RINGING and g.verified_steps == 0
+    assert run(g, SUN, 5, steps=120) == State.RINGING  # no new steps - still short
+    assert run(g, SUN, 5, steps=140) == State.DWELL    # walks again, daylight is prompt this time
+
+
 def test_safety_open():
     g = demo_gate()
     g.safety_open("override")

@@ -62,6 +62,7 @@ class GateConfig:
     flicker_max: float = 0.10
     grace_s: int = 90               # short cloud / doorway dips are forgiven
     tier_window_s: int = 60         # valid seconds used to pick the tier
+    door_window_s: int = 120        # daylight must follow the end of walking within this long
     # (min median lux, required seconds) — highest first.
     # Defaults follow Huberman's Sleep Toolkit (~10 / ~20 / 30-60 min); adjustable.
     tiers: list[tuple[float, int]] = field(default_factory=lambda: [
@@ -92,6 +93,8 @@ class Gate:
         self.tier_lux: list[float] = []
         self.required_s: int | None = None
         self.unlock_reason: str | None = None
+        self._ringing_s = 0
+        self._walked_at: int | None = None
 
     def start_alarm(self, current_steps: int) -> None:
         self.reset()
@@ -136,10 +139,19 @@ class Gate:
 
         walked = self.verified_steps >= self.cfg.steps_required
         if self.state == State.RINGING:
-            if walked and self.is_daylight(s):
-                self.state = State.DWELL
-            else:
+            self._ringing_s += 1
+            if not walked:
                 return self.state
+            if self._walked_at is None:
+                self._walked_at = self._ringing_s
+            if self._ringing_s - self._walked_at > self.cfg.door_window_s:
+                # missed the jump to daylight in time - walk again
+                self.verified_steps = 0
+                self._walked_at = None
+                return self.state
+            if not self.is_daylight(s):
+                return self.state
+            self.state = State.DWELL
 
         # DWELL
         if self.is_daylight(s):
