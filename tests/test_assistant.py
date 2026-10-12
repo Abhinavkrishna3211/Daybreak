@@ -143,6 +143,11 @@ def test_seed_makes_lines_reproducible():
     assert len({Persona(seed=s).alarm() for s in range(25)}) > 1
 
 
+def test_alarm_mentions_time_and_daylight_when_given():
+    said = Persona(seed=1).alarm("06:30", 18)
+    assert "18" in said and "6:30" in said
+
+
 @pytest.mark.parametrize("left,want", [(0.0, "one"), (0.4, "one"), (1.0, "one"),
                                        (1.6, "2"), (9.5, "10")])
 def test_minutes_never_says_zero(left, want):

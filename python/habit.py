@@ -117,15 +117,20 @@ def on_target_nights(rows: list[dict], target: str, grace_min: int = 15) -> int:
     return sum(1 for r in rows if r.get("phone_down") and _evening_minutes(r["phone_down"]) <= limit)
 
 
-def streak(rows: list[dict], alarm_time: str, grace_min: int = 15) -> int:
-    """Consecutive days, most recent first, with wake within grace_min of the alarm and the
-    gate actually unlocking (not an override)."""
+def streak(rows: list[dict], alarm_time: str, grace_min: int = 15, weekend_flex_min: int = 30) -> int:
+    """Consecutive days, most recent first, with wake within grace_min of the alarm (or
+    weekend_flex_min on Sat/Sun - docs/sleep-habit.md's "one fixed wake time... ±30 min allowed
+    on weekends") and the gate actually unlocking (not an override)."""
     target = _minutes(alarm_time)
     n = 0
     for r in reversed(rows):
         if not r.get("wake") or r.get("gate_result") != "unlocked":
             break
-        if abs(_minutes(r["wake"]) - target) > grace_min:
+        # r["date"] is keyed by the evening before (_night_date) - the wake itself lands the
+        # following calendar day, which is what "weekend" should mean here.
+        wake_date = dt.date.fromisoformat(r["date"]) + dt.timedelta(days=1)
+        allowed = weekend_flex_min if wake_date.weekday() >= 5 else grace_min
+        if abs(_minutes(r["wake"]) - target) > allowed:
             break
         n += 1
     return n
@@ -189,6 +194,16 @@ def demo():
     numbers = weekly_numbers(d, "06:30", "22:00")
     assert numbers["nights"] == 2
     assert numbers["night_opens"] == 0
+
+    # 2026-01-10 is a Saturday: 06:50 wake is outside the 15 min grace_min but inside
+    # the 30 min weekend_flex_min, so it should extend the streak instead of breaking it.
+    d2 = tempfile.mkdtemp()
+    record_phone_down(d2, dt.datetime(2026, 1, 9, 22, 0))
+    record_wake(d2, dt.datetime(2026, 1, 10, 6, 50))
+    record_gate(d2, 180, 900, "unlocked", when=dt.datetime(2026, 1, 10, 6, 50))
+    rows2 = recent(d2)
+    assert streak(rows2, "06:30") == 1
+    assert streak(rows2, "06:30", weekend_flex_min=5) == 0
     print("ok")
 
 

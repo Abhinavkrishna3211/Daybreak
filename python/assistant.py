@@ -80,12 +80,20 @@ class Persona:
             return self._pick(["Yes, {a}?", "Listening, {a}.", "Mm-hm?"])
         return self._pick(["Yes, {a}?", "At your service.", "Go ahead, {a}.", "Listening."])
 
-    def alarm(self) -> str:
+    def alarm(self, time_str: str | None = None, daylight_min: int | None = None) -> str:
+        if time_str and daylight_min is not None:
+            return self._pick([
+                "Good morning, {a}. It's {t}, the sun's been up for {d} minutes.",
+                "Morning, {a}. It's {t} - daylight's been out {d} minutes now.",
+            ], t=_spoken(time_str), d=daylight_min)
         return self._pick([
             "Good morning, {a}. The sun is up, and your phone is staying with me until you join it.",
             "Rise and shine, {a}. Your phone and I will be waiting outside for some daylight.",
             "Morning, {a}. Daylight is available. I'd recommend it.",
         ])
+
+    def walked_enough(self) -> str:
+        return self._pick(["Good. Now, some daylight, {a}.", "That'll do. Let's get you some daylight."])
 
     def refuse_unlock(self, minutes_left: float | None) -> str:
         if minutes_left is None:

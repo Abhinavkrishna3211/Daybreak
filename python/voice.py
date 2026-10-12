@@ -249,9 +249,10 @@ def synth(text: str, path, length_scale: float | None = None) -> str:
     return str(path)
 
 
-def say(text: str) -> None:
+def say(text: str, volume: float = 1.0) -> None:
     """Speak, with the wake word suppressed for the duration. Quieter, slower and shorter
-    between bedtime and the alarm (docs/jarvis.md "Night mode")."""
+    between bedtime and the alarm (docs/jarvis.md "Night mode"). `volume` < 1 scales the
+    output further, for the alarm's rising-volume soft start (docs/jarvis.md "Waking you up")."""
     if not text:
         return
     night = is_night()
@@ -263,8 +264,9 @@ def say(text: str) -> None:
         try:
             synth(text, tmp, length_scale=NIGHT_LENGTH_SCALE if night else None)
             pcm = _read_wav(tmp)
-            if night:
-                pcm = _scale(pcm, NIGHT_VOLUME)
+            factor = volume * (NIGHT_VOLUME if night else 1.0)
+            if factor != 1.0:
+                pcm = _scale(pcm, factor)
             speaker().play_pcm(pcm)
         finally:
             pathlib.Path(tmp).unlink(missing_ok=True)

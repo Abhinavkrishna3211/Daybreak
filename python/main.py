@@ -150,11 +150,11 @@ def on_rtc(unixtime):
         os.system(f"date -s @{unixtime} > /dev/null 2>&1")
 
 
-def speak(text: str):
+def speak(text: str, volume: float = 1.0):
     """Say something. voice.say holds voice.speaking for the duration, which is what stops a
     reply from waking us up again - the wake brick cannot be paused, so the detection callback
     checks that flag instead."""
-    voice.say(text)
+    voice.say(text, volume=volume)
 
 
 def on_command(wav: str):
@@ -347,7 +347,8 @@ def api_state():
         "busy": busy.is_set(),
         "speaking": voice.speaking.is_set(),
         "habit": {"rows": habit.recent(DATA, 14), "target": _target_phone_down(alarm_time),
-                  "streak": habit.streak(habit.recent(DATA, 14), alarm_time),
+                  "streak": habit.streak(habit.recent(DATA, 14), alarm_time,
+                                          weekend_flex_min=CONFIG["habit"]["weekend_flex_min"]),
                   "sleep_goal_h": CONFIG["habit"]["sleep_goal_h"]},
     }
 
@@ -444,9 +445,50 @@ def unlock_and_brief():
     out_the_door_s = int(time.time() - alarm_started_at) if alarm_started_at else 0
     row = habit.record_gate(DATA, out_the_door_s, gate.valid_s, "unlocked")
     rows = habit.recent(DATA, 14)
-    streak = habit.streak(rows, CONFIG.get("alarm", "06:30"))
+    streak = habit.streak(rows, CONFIG.get("alarm", "06:30"),
+                           weekend_flex_min=CONFIG["habit"]["weekend_flex_min"])
     if row.get("phone_down") and row.get("wake"):
         speak(jarvis.morning_recap(row["phone_down"], row["wake"], streak))
+
+
+SOFTSTART_VOLUMES = (0.3, 0.5, 0.7, 1.0)  # CALIBRATE: raise the floor if the first step is inaudible
+SOFTSTART_STEP_S = 30  # 4 steps * 30s = the 2 min soft start in docs/jarvis.md
+
+
+def _walked() -> bool:
+    return gate.verified_steps >= gate.cfg.steps_required
+
+
+def _morning_sequence():
+    """docs/jarvis.md "Waking you up": quiet, rising-volume good-mornings for 2 min, then the
+    buzzer alternates with Jarvis until enough steps are verified; walking stops it, not voice.
+
+    Disarms the MCU's own auto-ring (hAlarm(0) clears alarmArmed) for the quiet window - if Linux
+    crashes during the soft start the buzzer stays silent, but the 30 s heartbeat watchdog still
+    opens the box on its own, so nothing is actually locked away by the quiet.
+    """
+    Bridge.call("alarm", 0)
+    sr = _sunrise_today()
+    now_str = dt.datetime.now().strftime("%H:%M")
+    daylight_min = None
+    if sr:
+        daylight_min = max(0, int((dt.datetime.now() -
+                                    dt.datetime.combine(dt.date.today(), sr)).total_seconds() // 60))
+    line = jarvis.alarm(now_str, daylight_min)
+    for volume in SOFTSTART_VOLUMES:
+        if _walked() or gate.state != State.RINGING:
+            return
+        speak(line, volume=volume)
+        time.sleep(SOFTSTART_STEP_S)
+    while not _walked() and gate.state == State.RINGING:
+        Bridge.call("alarm", 1)
+        time.sleep(3)
+        Bridge.call("alarm", 0)
+        if _walked() or gate.state != State.RINGING:
+            break
+        speak(line)
+    if gate.state == State.RINGING:  # stopped by walking, not an override/safety-open elsewhere
+        speak(jarvis.walked_enough())
 
 
 def start_morning():
@@ -455,9 +497,8 @@ def start_morning():
     gate.start_alarm(steps)
     alarm_started_at = time.time()
     Bridge.call("lock", CONFIG.get("max_lock_min", 90))
-    Bridge.call("alarm", 1)
-    speak(jarvis.alarm())
     habit.record_wake(DATA)
+    threading.Thread(target=_morning_sequence, daemon=True).start()
 
 
 def _due_once_today(fired: dt.date | None, hhmm: str, window_min: int = 5) -> bool:
@@ -492,7 +533,7 @@ def loop():
     alarm_time = alarm.load(DATA, CONFIG.get("alarm", "06:30"))["time"]
     alarm_clock = dt.datetime.strptime(alarm_time, "%H:%M").time()
     today = dt.date.today()
-    if fired_today != today and dt.datetime.now().time() >= alarm_clock \
+    if fired_today != today and alarm.fires_on(DATA, today) and dt.datetime.now().time() >= alarm_clock \
             and dt.datetime.now().time() < (dt.datetime.combine(today, alarm_clock) + dt.timedelta(minutes=5)).time():
         fired_today = today
         start_morning()

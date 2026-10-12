@@ -57,7 +57,7 @@ from assistant import Reply  # noqa: E402
 def _reset(monkeypatch):
     main.Bridge.calls.clear()
     monkeypatch.setattr(main.voice, "transcribe", lambda wav: "ignored")
-    monkeypatch.setattr(main.voice, "say", lambda text: spoken.append(text))
+    monkeypatch.setattr(main.voice, "say", lambda text, volume=1.0: spoken.append(text))
     monkeypatch.setattr(main.os, "remove", lambda path: None)
     monkeypatch.setattr(main, "phone_in", False)
     monkeypatch.setattr(main, "lid_shut", False)
@@ -114,6 +114,26 @@ def test_await_confirm_stores_pending_and_runs_no_action(monkeypatch, _reset):
 
     assert main.pending_confirm == {"time": "05:00"}
     assert main.Bridge.calls == []
+
+
+def test_morning_sequence_stays_quiet_then_buzzes_then_stops_on_walking(monkeypatch, _reset):
+    main.gate.start_alarm(0)
+    monkeypatch.setattr(main, "_sunrise_today", lambda: None)
+    sleeps = []
+
+    def fake_sleep(s):
+        sleeps.append(s)
+        if len(sleeps) == 5:  # one buzzer cycle after the soft start: now you've walked
+            main.gate.verified_steps = main.gate.cfg.steps_required
+
+    monkeypatch.setattr(main.time, "sleep", fake_sleep)
+
+    main._morning_sequence()
+
+    assert sleeps[:4] == [main.SOFTSTART_STEP_S] * 4  # 4 quiet steps, no buzzer calls yet
+    assert main.Bridge.calls.count(("alarm", (1,))) == 1  # exactly one buzzer pulse, then walked
+    assert len(_reset) == 4 + 1  # 4 soft-start lines, then "walked enough" - no buzzer-cycle line
+    assert "daylight" in _reset[-1].lower()
 
 
 if __name__ == "__main__":
